@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/ps"/>
+	<classpathentry kind="src" path="src/editor"/>
+	<classpathentry kind="lib" path="third-party/jibx/jibx-bind.jar"/>
+	<classpathentry kind="lib" path="third-party/jibx/jibx-run.jar"/>
+	<classpathentry kind="lib" path="third-party/lwjgl/jinput.jar"/>
+	<classpathentry kind="lib" path="third-party/lwjgl/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Java Open Particle System/third-party/lwjgl/win32"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="third-party/math/openmali.jar"/>
+	<classpathentry kind="lib" path="third-party/lwjgl/lwjgl_devil.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
