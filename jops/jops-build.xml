@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="JOPS" default="official-build" basedir=".">
+
+	<property name="author" value="Guilherme Gomes" />
+	<property name="email" value="guilhermegrg@gmail.com" />
+
+	<property name="bin" value="bin-temp" />
+	<property name="jops-bin" value="jops" />
+	<property name="jops-editor-bin" value="editor" />
+
+	<property name="jops-source" value="src/ps" />
+	<property name="jops-editor-source" value="src/editor" />
+
+	<property name="release" value="release" />
+
+	<property name="jops-classpath" value="third-party/jibx/jibx-run.jar;third-party/math/openmali.jar" />
+	<property name="jops-editor-classpath" value="third-party/jibx/jibx-run.jar;third-party/math/openmali.jar;third-party/lwjgl/lwjgl.jar;third-party/lwjgl/lwjgl_devil.jar" />
+
+	<property name="jibx-binding" value="bin/org/softmed/jops/fileloading/bindings.xml" />
+	<property name="jibx-lib" value="third-party/jibx" />
+
+	<property name="JOPS-Version" value="0.50" />
+	<property name="JOPS-Editor-Version" value="0.50" />
+
+
+
+	<taskdef name="bind" classname="org.jibx.binding.ant.CompileTask" classpath="${jibx-lib}/jibx-bind.jar" />
+
+
+	<target name="cleanTemp" description="Clean all temp build targets">
+		<delete dir="${bin}" />
+	</target>
+
+	<target name="cleanRelease" description="Clean all release targets">
+		<delete dir="${release}" />
+	</target>
+
+	<target name="cleanAll" description="Clean all build targets">
+		<antcall target="cleanTemp" />
+		<antcall target="cleanRelease" />
+	</target>
+
+	<target name="JOPS-BINARY-BINDING">
+	<bind verbose="true" load="true" binding="${jibx-binding}" classpath="${jops-classpath}">
+				<classpath path="bin" />
+	</bind>
+	</target>
+
+	<target name="JOPS">
+
+		<mkdir dir="${bin}/${jops-bin}" />
+
+		<echo>Compiling JOPS</echo>
+
+		<javac classpath="${jops-classpath}" srcdir="${jops-source}" destdir="${bin}/${jops-bin}" />
+
+		<echo>Binding JOPS with JIBX</echo>
+
+		<bind verbose="true" load="true" binding="${jibx-binding}" classpath="${jops-classpath}">
+			<classpath path="${bin}/${jops-bin}" />
+		</bind>
+		
+		<mkdir dir="${release}" />
+
+		<echo>JARing JOPS</echo>
+		<jar jarfile="${release}/jops-${JOPS-Version}.jar" basedir="${bin}/${jops-bin}">
+			<manifest>
+				<attribute name="Version" value="${JOPS-Version}" />
+				<attribute name="Built-By" value="${author}" />
+				<attribute name="Contact" value="${email}" />
+			</manifest>
+
+		</jar>
+
+	</target>
+
+	<target name="JOPS-Editor">
+
+		<echo>Compiling JOPS-EDITOR</echo>
+
+		<mkdir dir="${bin}/${jops-editor-bin}" />
+
+		<javac classpath="${jops-editor-classpath};${release}/jops-${JOPS-Version}.jar" srcdir="${jops-editor-source}" destdir="${bin}/${jops-editor-bin}" />
+
+		<mkdir dir="${release}" />
+
+		<echo>JARing JOPS-EDITOR</echo>
+		<jar jarfile="${release}/jops-editor-${JOPS-Editor-Version}.jar" basedir="${bin}/${jops-editor-bin}">
+			<manifest>
+				<attribute name="Version" value="${JOPS-Editor-Version}" />
+				<attribute name="Built-By" value="${author}" />
+				<attribute name="Contact" value="${email}" />
+				<attribute name="Class-Path" value="lwjgl.jar lwjgl_devil.jar jops-${JOPS-Version}.jar jibx-run.jar openmali.jar" />
+				<attribute name="Main-Class" value="gui.Main" />
+			</manifest>
+
+		</jar>
+
+	</target>
+
+	<target name="JOPS-Editor-Windows-Platform">
+		<mkdir dir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+
+		<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+
+		<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/lwjgl_devil.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+
+		<copy file="third-party/lwjgl/win32/DevIL.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/win32/ILU.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/win32/ILUT.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/win32/lwjgl.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/win32/lwjgl-devil.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+
+		<copy todir="${release}/jops-editor-win32-${JOPS-Version}/media">
+			<fileset dir="media" />
+		</copy>
+
+		<java classname="platform.WindowsRelease">
+			<arg value="jops-editor-${JOPS-Editor-Version}.jar" />
+			<classpath>
+				<pathelement location="${bin}/${jops-editor-bin}" />
+			</classpath>
+		</java>
+
+		<move file="jops-editor.bat" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+
+
+		<zip destfile="${release}/jops-editor-win32-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-win32-${JOPS-Editor-Version}">
+		</zip>
+
+	</target>
+	
+	
+	<target name="JOPS-Editor-Linux-Platform">
+			<mkdir dir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+			<mkdir dir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+
+			<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+			<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+
+			<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+			<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+			<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+			<copy file="third-party/lwjgl/lwjgl_devil.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+
+			<copy file="third-party/lwjgl/linux/libIL.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+			<copy file="third-party/lwjgl/linux/libILU.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+			<copy file="third-party/lwjgl/linux/libILUT.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+			<copy file="third-party/lwjgl/linux/liblwjgl.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+		<copy file="third-party/lwjgl/linux/liblwjgl64.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+			<copy file="third-party/lwjgl/linux/liblwjgl-devil.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+
+			<copy todir="${release}/jops-editor-linux-${JOPS-Version}/media">
+				<fileset dir="media" />
+			</copy>
+
+			<java classname="platform.LinuxRelease">
+				<arg value="jops-editor-${JOPS-Editor-Version}.jar" />
+				<arg value="jops-${JOPS-Version}.jar" />
+				<classpath>
+					<pathelement location="${bin}/${jops-editor-bin}" />
+				</classpath>
+			</java>
+
+			<move file="jops-editor.sh" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+
+
+			<zip destfile="${release}/jops-editor-linux-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-linux-${JOPS-Editor-Version}">
+			</zip>
+
+		</target>
+
+
+	<target name="JOPS-Editor-Platform-Releases">
+		<echo>Creating JOPS-Editor Platform Releases</echo>
+		<antcall target="JOPS-Editor-Windows-Platform" />
+		<antcall target="JOPS-Editor-Linux-Platform" />
+	</target>
+
+
+	<target name="JOPS-SRC">
+		<zip destfile="${release}/jops-src-${JOPS-Version}.zip" basedir="${jops-source}">
+		</zip>
+	</target>
+
+	<target name="JOPS-DEPENDENCIES">
+		<zip destfile="${release}/jops-dependencies-${JOPS-Version}.zip">
+			<fileset file="third-party/math/openmali.jar" />
+			<fileset file="third-party/jibx/jibx-run.jar" />
+		</zip>
+	</target>
+
+	<target name="JOPS-Editor-SRC">
+		<zip destfile="${release}/jops-editor-src-${JOPS-Editor-Version}.zip" basedir="${jops-editor-source}">
+		</zip>
+	</target>
+
+	<target name="JOPS-Editor-DEPENDENCIES">
+		<zip destfile="${release}/jops-editor-dependencies-${JOPS-Editor-Version}.zip" >
+			<fileset file="${release}/jops-${JOPS-Version}.jar" />
+			<fileset file="third-party/math/openmali.jar" />
+			<fileset file="third-party/jibx/jibx-run.jar" />
+			<fileset file="third-party/lwjgl/lwjgl.jar" />
+			<fileset file="third-party/lwjgl/lwjgl_devil.jar" />
+		</zip>
+	</target>
+
+	<target name="official-build" description="Build everything">
+		<antcall target="cleanAll" />
+
+		<antcall target="JOPS" />
+		<antcall target="JOPS-Editor" />
+
+		<antcall target="JOPS-SRC" />
+		<antcall target="JOPS-Editor-SRC" />
+
+		<antcall target="JOPS-DEPENDENCIES" />
+		<antcall target="JOPS-Editor-DEPENDENCIES" />
+
+		<antcall target="JOPS-Editor-Platform-Releases" />
+		<antcall target="cleanTemp" />
+		
+		<antcall target="JOPS-BINARY-BINDING" />
+		
+	</target>
+
+
+</project>
