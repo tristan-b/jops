@@ -1,0 +1,447 @@
+<binding>
+
+	<mapping name="InfoObject" class="org.softmed.jops.InfoObject">
+		<value name="Name" field="name" usage="optional" />
+		<value name="Description" field="description" usage="optional" />
+	</mapping>
+
+
+	<mapping name="ParticleRender" class="org.softmed.jops.ParticleRender"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<value name="TextureName" field="textureName" />
+		<value name="SourceFactor" field="sourceFactor" />
+		<value name="DestinationFactor" field="destinationFactor" />
+	</mapping>
+
+
+	<mapping name="GenericValue" class="org.softmed.jops.values.GenericValue">
+		<value name="Time" field="time" />
+		<structure name="Value" field="value"
+			marshaller="org.softmed.jops.fileloading.ObjectMarshaller"
+			unmarshaller="org.softmed.jops.fileloading.ObjectMarshaller"
+			set-method="setValue" />
+	</mapping>
+
+
+
+	<mapping name="SimpleValueListC"
+		class="org.softmed.jops.valuelists.SimpleValueListc" abstract="true">
+		<value name="Repeat" field="repeat" />
+		<collection field="values"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			set-method="setValues">
+			<structure type="org.softmed.jops.values.GenericValue" />
+		</collection>
+	</mapping>
+
+	<mapping name="SimpleValueListF"
+		class="org.softmed.jops.valuelists.SimpleValueListf" abstract="true">
+		<value name="Repeat" field="repeat" />
+		<collection field="values"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			set-method="setValues">
+			<structure type="org.softmed.jops.values.GenericValue" />
+		</collection>
+	</mapping>
+
+	<mapping name="SimpleValueListV3F"
+		class="org.softmed.jops.valuelists.SimpleValueListv3f" abstract="true">
+		<value name="Repeat" field="repeat" />
+		<collection field="values"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			set-method="setValues">
+			<structure type="org.softmed.jops.values.GenericValue" />
+		</collection>
+	</mapping>
+
+
+	<mapping name="SimpleValueListP3F"
+		class="org.softmed.jops.valuelists.SimpleValueListp3f" abstract="true">
+		<value name="Repeat" field="repeat" />
+		<collection field="values"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			set-method="setValues">
+			<structure type="org.softmed.jops.values.GenericValue" />
+		</collection>
+	</mapping>
+
+
+
+	<mapping name="ValueListC" class="org.softmed.jops.valuelists.ValueListc"
+		abstract="true">
+		<value name="Bias" field="bias" />
+		<value name="Active" field="active" />
+		<value name="Random" field="random" />
+
+		<structure name="MainValueList" field="mainValueList"
+			set-method="setMainValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListc" />
+
+		<structure name="RandomValueList" field="randomValueList"
+			set-method="setRandomValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListc" />
+
+	</mapping>
+
+
+
+	<mapping name="ValueListF" class="org.softmed.jops.valuelists.ValueListf"
+		abstract="true">
+		<value name="Bias" field="bias" />
+		<value name="Active" field="active" />
+		<value name="Random" field="random" />
+
+
+		<structure name="MainValueList" field="mainValueList"
+			set-method="setMainValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListf" />
+
+		<structure name="RandomValueList" field="randomValueList"
+			set-method="setRandomValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListf" />
+
+
+	</mapping>
+
+
+
+
+	<mapping name="ValueListV3F"
+		class="org.softmed.jops.valuelists.ValueListv3f" abstract="true">
+		<value name="Bias" field="bias" />
+		<value name="Active" field="active" />
+		<value name="Random" field="random" />
+
+		<structure name="MainValueList" field="mainValueList"
+			set-method="setMainValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListv3f" />
+
+		<structure name="RandomValueList" field="randomValueList"
+			set-method="setRandomValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListv3f" />
+
+	</mapping>
+
+
+	<mapping name="ValueListP3F"
+		class="org.softmed.jops.valuelists.ValueListp3f" abstract="true">
+		<value name="Bias" field="bias" />
+		<value name="Active" field="active" />
+		<value name="Random" field="random" />
+
+		<structure name="MainValueList" field="mainValueList"
+			set-method="setMainValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListp3f" />
+
+		<structure name="RandomValueList" field="randomValueList"
+			set-method="setRandomValueList"
+			type="org.softmed.jops.valuelists.SimpleValueListp3f" />
+
+	</mapping>
+
+
+	<mapping name="ParticleBehaviour" class="org.softmed.jops.ParticleBehaviour"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+
+
+		<structure name="Alpha" field="alpha" />
+		<structure name="Color" field="color" />
+		<structure name="Mass" field="mass" />
+		<structure name="Spin" field="spin" />
+		<structure name="Angle" field="angle" />
+		<structure name="Size" field="size" />
+		<structure name="Elasticity" field="elasticity" />
+
+		<structure name="ParticleAngleV" field="particleAngleV" />
+		<structure name="ParticleAngleH" field="particleAngleH" />
+
+		<structure name="ParticleSpinV" field="particleSpinV" />
+		<structure name="ParticleSpinH" field="particleSpinH" />
+
+		<structure name="Width" field="width" />
+		<structure name="Height" field="height" />
+		<structure name="TexWidth" field="texWidth" />
+		<structure name="TexHeight" field="texHeight" />
+
+		<structure name="Speed" field="speed" />
+
+	</mapping>
+
+	<mapping name="GeneratorBehaviour"
+		class="org.softmed.jops.GeneratorBehaviour"
+		extends="org.softmed.jops.ParticleBehaviour">
+		<structure map-as="org.softmed.jops.ParticleBehaviour" />
+		<value name="Number" field="number" />
+
+
+		<structure name="Life" field="life" />
+		<structure name="Rate" field="rate" />
+		<structure name="AngleV" field="angleV" />
+		<structure name="AngleH" field="angleH" />
+
+		<structure name="SpinV" field="spinV" />
+		<structure name="SpinH" field="spinH" />
+		<structure name="AngleSpreadV" field="angleSpreadV" />
+		<structure name="AngleSpreadH" field="angleSpreadH" />
+
+
+	</mapping>
+
+
+	<mapping name="BoxGenerator" class="org.softmed.jops.space.BoxGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Depth" field="depth" />
+		<structure name="Width" field="width" />
+		<structure name="Height" field="height" />
+	</mapping>
+
+	<mapping name="CylinderGenerator"
+		class="org.softmed.jops.space.CylinderGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Height" field="height" />
+		<structure name="InnerRadius" field="innerRadius" />
+		<structure name="OuterRadius" field="outerRadius" />
+	</mapping>
+
+	<mapping name="PointGenerator" class="org.softmed.jops.space.PointGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+	</mapping>
+
+	<mapping name="SphereGenerator"
+		class="org.softmed.jops.space.SphereGenerator" extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="InnerRadius" field="innerRadius" />
+		<structure name="OuterRadius" field="outerRadius" />
+	</mapping>
+
+
+	<mapping name="CircleGenerator"
+		class="org.softmed.jops.space.simple.CircleGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Radius" field="radius" set-method="setRadius" />
+	</mapping>
+
+	<mapping name="LineGenerator"
+		class="org.softmed.jops.space.simple.LineGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="A" field="a" />
+		<structure name="B" field="b" />
+	</mapping>
+
+	<mapping name="PlaneGenerator"
+		class="org.softmed.jops.space.simple.PlaneGenerator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Width" field="width" />
+		<structure name="Height" field="height" />
+	</mapping>
+
+
+
+	<mapping name="DCircleGenerator"
+		class="org.softmed.jops.space.discreet.DCircleGenerator"
+		extends="org.softmed.jops.space.simple.CircleGenerator">
+		<structure map-as="org.softmed.jops.space.simple.CircleGenerator" />
+		<value name="Points" set-method="setPoints"
+			get-method="getPoints" />
+	</mapping>
+
+	<mapping name="DLineGenerator"
+		class="org.softmed.jops.space.discreet.DLineGenerator"
+		extends="org.softmed.jops.space.simple.LineGenerator">
+		<structure map-as="org.softmed.jops.space.simple.LineGenerator" />
+		<value name="Points" field="points" set-method="setPoints" />
+	</mapping>
+
+	<mapping name="DPlaneGenerator"
+		class="org.softmed.jops.space.discreet.DPlaneGenerator"
+		extends="org.softmed.jops.space.simple.PlaneGenerator">
+		<structure map-as="org.softmed.jops.space.simple.PlaneGenerator" />
+		<value name="Lines" field="lines" set-method="setLines" />
+		<value name="Columns" field="columns" set-method="setColumns" />
+	</mapping>
+
+
+
+
+
+	<mapping name="SpaceAnimator" class="org.softmed.jops.SpaceAnimator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="SpaceAngle" field="spaceAngle" />
+		<structure name="SpaceSpin" field="spaceSpin" />
+	</mapping>
+
+	<mapping name="PositionAnimator" class="org.softmed.jops.PositionAnimator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Position" field="position" />
+		<structure name="Bias" field="bias" />
+		<structure name="BiasAngle" field="biasAngle" />
+		<structure name="BiasSpin" field="biasSpin" />
+	</mapping>
+
+
+
+	<mapping name="AirFriction" class="org.softmed.jops.modifiers.AirFriction"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Strength" field="strength" />
+		<structure name="SizeImportance" field="sizeImportance" />
+	</mapping>
+
+	<mapping name="GenericForce" class="org.softmed.jops.modifiers.GenericForce"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Direction" field="direction" />
+		<structure name="Strength" field="strength" />
+		<structure name="MassImportance" field="massImportance" />
+	</mapping>
+
+	<mapping name="PointMass" class="org.softmed.jops.modifiers.PointMass"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<structure name="Strength" field="strength" />
+		<structure name="MassImportance" field="massImportance" />
+		<structure name="DistanceImportance" field="distanceImportance" />
+		<structure name="ThresholdValue" field="thresholdValue" />
+
+		<value name="DistanceVariation" field="distanceVariation"
+			set-method="setDistanceVariation" />
+		<value name="DistanceProportion" field="distanceProportion"
+			set-method="setDistanceProportion" />
+		<value name="Threshold" field="threshold"
+			set-method="setThreshold" />
+
+		<!--  reference to the positionAnimator -->
+		<value name="PositionAnimatorIndex"
+			field="positionAnimatorIndex" />
+
+
+	</mapping>
+
+
+
+
+	<mapping name="Generator" class="org.softmed.jops.Generator"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+
+		<value name="Alive" field="alive" />
+		<value name="RegenerateParticles" field="regenerateParticles" />
+		<value name="KillParticles" field="killParticles" />
+		<value name="AbsoluteParticleAngle"
+			field="absoluteParticleAngle" />
+
+		<!--  references  -->
+		<value name="ParticleBehaviourIndex"
+			field="particleBehaviourIndex" />
+		<value name="GeneratorBehaviourIndex"
+			field="generatorBehaviourIndex" />
+		<value name="SpaceIndex" field="spaceIndex" />
+		<value name="SpaceAnimatorIndex" field="spaceAnimatorIndex" />
+		<value name="RenderIndex" field="renderIndex" />
+		<value name="PositionAnimatorIndex"
+			field="positionAnimatorIndex" />
+
+
+		<collection name="ModifierIndexes" field="modifierIndexes"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			usage="optional">
+			<value name="Index" style="element"
+				type="java.lang.Integer" />
+		</collection>
+
+
+		<!--
+			<value name="ModifierIndexes" field="modifierIndexes"  usage="optional" />
+		-->
+
+
+	</mapping>
+
+
+
+
+
+	<mapping name="ParticleSystem" class="org.softmed.jops.ParticleSystem"
+		extends="org.softmed.jops.InfoObject">
+		<structure map-as="org.softmed.jops.InfoObject" />
+		<value name="Version" field="version" />
+		<value name="Repeat" field="repeat" />
+		<value name="Limited" field="limited" />
+		<value name="Alive" field="alive" />
+		<value name="Renderable" field="renderable" />
+		<value name="Limit" field="limit" />
+		<value name="Resolution" field="resolution" />
+
+		<collection name="Renders" field="renders"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.ParticleRender" />
+		</collection>
+
+		<collection name="ParticleBehaviours" field="behaviours"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.ParticleBehaviour" />
+		</collection>
+
+		<collection name="GeneratorBehaviours" field="genBehaviours"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.GeneratorBehaviour" />
+		</collection>
+
+		<collection name="Spaces" field="spaces"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+
+			<structure type="org.softmed.jops.space.PointGenerator" />
+			<structure type="org.softmed.jops.space.SphereGenerator" />
+
+			<structure type="org.softmed.jops.space.BoxGenerator" />
+			<structure type="org.softmed.jops.space.CylinderGenerator" />
+
+			<structure type="org.softmed.jops.space.simple.CircleGenerator" />
+			<structure type="org.softmed.jops.space.simple.LineGenerator" />
+			<structure type="org.softmed.jops.space.simple.PlaneGenerator" />
+
+			<structure type="org.softmed.jops.space.discreet.DCircleGenerator" />
+			<structure type="org.softmed.jops.space.discreet.DLineGenerator" />
+			<structure type="org.softmed.jops.space.discreet.DPlaneGenerator" />
+		</collection>
+
+		<collection name="SpaceAnimators" field="animators"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.SpaceAnimator" />
+		</collection>
+
+		<collection name="PositionAnimators" field="panimators"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.PositionAnimator" />
+		</collection>
+
+
+		<collection name="Modifiers" field="modifiers"
+			factory="org.jibx.runtime.Utility.arrayListFactory"
+			ordered="false">
+			<structure type="org.softmed.jops.modifiers.AirFriction" />
+			<structure type="org.softmed.jops.modifiers.GenericForce" />
+			<structure type="org.softmed.jops.modifiers.PointMass" />
+		</collection>
+
+
+		<collection name="Generators" field="generators"
+			factory="org.jibx.runtime.Utility.arrayListFactory">
+			<structure type="org.softmed.jops.Generator" />
+		</collection>
+
+	</mapping>
+
+
+
+</binding>
