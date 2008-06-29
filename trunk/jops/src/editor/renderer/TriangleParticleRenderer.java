@@ -32,15 +32,15 @@ import org.lwjgl.opengl.glu.Sphere;
  */
 public class TriangleParticleRenderer extends RendererClient {
 
-	public static boolean showLines = false;
+	public boolean showLines = false;
 
-	public static boolean showGenerators = true;
+	public boolean showGenerators = true;
 
-	public static boolean showPointMasses = true;
+	public boolean showPointMasses = true;
 
-	public static boolean showPointMasseTreshold = true;
+	public boolean showPointMasseTreshold = true;
 
-	public static float indicatorSize = 0.05f;
+	public float indicatorSize = 0.05f;
 
 	ParticleManager manager;
 

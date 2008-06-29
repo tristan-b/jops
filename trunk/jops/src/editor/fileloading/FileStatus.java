@@ -6,6 +6,10 @@ public class FileStatus {
 	File file;
 	File directory;
 
+	public FileStatus(File dir) {
+		setDirectory(dir);
+	}
+
 	public File getDirectory() {
 		return directory;
 	}
@@ -21,10 +25,10 @@ public class FileStatus {
 	public void setFile(File file) {
 		this.file = file;
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		file = null;
-		//directory=null;
+		// directory=null;
 	}
 
 }

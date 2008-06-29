@@ -33,10 +33,10 @@ import renderer.TriangleParticleRenderer;
 
 public class DevToolBar extends JMenuBar implements ActionListener,
 		SpaceSelectionListener, ModifierCreatedListener {
-    
-    private static final long serialVersionUID = -9049562565758490119L;
-    
-    private final int ITEM_PLAIN = 0; // Item types
+
+	private static final long serialVersionUID = -9049562565758490119L;
+
+	private final int ITEM_PLAIN = 0; // Item types
 
 	private final int ITEM_CHECK = 1;
 
@@ -90,7 +90,7 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 	JButton resetAll;
 
 	JButton create10SharedClones;
-	
+
 	JButton create10Clones;
 
 	JButton killClones;
@@ -111,10 +111,17 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 
 	private PSDetail detail;
 
-	public DevToolBar(JToolBar bar, PSTree tree, PSDetail detail) {
+	StandardGLRenderer renderer;
+	TriangleParticleRenderer renderClient;
+
+	public DevToolBar(JToolBar bar, PSTree tree, PSDetail detail,
+			StandardGLRenderer renderer, TriangleParticleRenderer renderClient) {
 		this.bar = bar;
 		this.tree = tree;
 		this.detail = detail;
+
+		this.renderer = renderer;
+		this.renderClient = renderClient;
 
 		fileLoader.setDetail(detail);
 
@@ -169,12 +176,12 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		showPointMasses = (JCheckBoxMenuItem) CreateMenuCheckItem("Point Masses");
 		showPointMassesTreshold = (JCheckBoxMenuItem) CreateMenuCheckItem("Point Masses Treshold Radius");
 
-		showGrid.setSelected(StandardGLRenderer.showGrid);
-		showAxis.setSelected(StandardGLRenderer.showAxis);
-		showGenerators.setSelected(ParticleRendererClient.showGenerators);
-		showPointMasses.setSelected(ParticleRendererClient.showPointMasses);
+		showGrid.setSelected(renderer.showGrid);
+		showAxis.setSelected(renderer.showAxis);
+		showGenerators.setSelected(renderClient.showGenerators);
+		showPointMasses.setSelected(renderClient.showPointMasses);
 		showPointMassesTreshold
-				.setSelected(ParticleRendererClient.showPointMasseTreshold);
+				.setSelected(renderClient.showPointMasseTreshold);
 
 		preferences.add(showGrid);
 		preferences.add(showAxis);
@@ -201,8 +208,8 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		pauseAll = createButton("Pause");
 		resetAll = createButton("Reset");
 
-		create10SharedClones= createButton("10 Shared Clones");
-		
+		create10SharedClones = createButton("10 Shared Clones");
+
 		create10Clones = createButton("10 clones");
 		killClones = createButton("Kill clones");
 
@@ -230,8 +237,8 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		bar.add(pauseAll);
 		bar.add(resetAll);
 		bar.addSeparator();
-		
-		//bar.add(create10SharedClones);
+
+		// bar.add(create10SharedClones);
 		bar.add(create10Clones);
 		bar.add(killClones);
 		// */
@@ -344,23 +351,21 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 			Editor.EDITOR.setTitle("untitled");
 			Editor.DIRTY = true;
 		} else if (source == showGrid) {
-			StandardGLRenderer.showGrid = showGrid.isSelected();
+			renderer.showGrid = showGrid.isSelected();
 		} else if (source == showAxis) {
-			StandardGLRenderer.showAxis = showAxis.isSelected();
+			renderer.showAxis = showAxis.isSelected();
 		} else if (source == showGenerators) {
-			TriangleParticleRenderer.showGenerators = showGenerators.isSelected();
+			renderClient.showGenerators = showGenerators.isSelected();
 		} else if (source == showPointMasses) {
-			TriangleParticleRenderer.showPointMasses = showPointMasses
-					.isSelected();
+			renderClient.showPointMasses = showPointMasses.isSelected();
 		} else if (source == showPointMassesTreshold) {
-			TriangleParticleRenderer.showPointMasseTreshold = showPointMassesTreshold
+			renderClient.showPointMasseTreshold = showPointMassesTreshold
 					.isSelected();
 		} else if (source == about) {
 			JOptionPane.showMessageDialog(Editor.EDITOR,
 					"Open Particle Editor V0.5 \n"
 							+ "Created by Guilherme Gomes \n"
-							+ "guilhermegrg@gmail.com\n"
-							+ "LGPL License");
+							+ "guilhermegrg@gmail.com\n" + "LGPL License");
 		} else if (source == create10Clones) {
 			// PARTICLE_MANAGER
 			if (PARTICLE_MANAGER.getSystems().size() == 0)
@@ -370,24 +375,25 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 
 				ParticleSystem original = PARTICLE_MANAGER.getSystems().get(0);
 
-				ParticleSystem copy = PARTICLE_MANAGER.getParticleLibrary().getStandaloneCopy(original);
-				copy.getPosition().set((float) (5f-Math.random() * 10f),
-						0f, (float)( 5f-Math.random() * 10f));
+				ParticleSystem copy = PARTICLE_MANAGER.getParticleLibrary()
+						.getStandaloneCopy(original);
+				copy.getPosition().set((float) (5f - Math.random() * 10f), 0f,
+						(float) (5f - Math.random() * 10f));
 				PARTICLE_MANAGER.getSystems().add(copy);
 
 			}
 
 		} else if (source == killClones) {
 			int size = PARTICLE_MANAGER.getSystems().size();
-			if(size<=1)
+			if (size <= 1)
 				return;
 			for (int i = 1; i < size; i++) {
 				PARTICLE_MANAGER.getSystems().remove(1);
 			}
-			
+
 			System.gc();
-			
-		}else if (source == create10SharedClones) {
+
+		} else if (source == create10SharedClones) {
 			// PARTICLE_MANAGER
 			if (PARTICLE_MANAGER.getSystems().size() == 0)
 				return;
@@ -396,17 +402,16 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 
 				ParticleSystem original = PARTICLE_MANAGER.getSystems().get(0);
 
-				ParticleSystem copy = PARTICLE_MANAGER.getParticleLibrary().getStandaloneCopy(original);
-				copy.getPosition().set((float) (5f-Math.random() * 10f),
-						0f, (float)( 5f-Math.random() * 10f));
+				ParticleSystem copy = PARTICLE_MANAGER.getParticleLibrary()
+						.getStandaloneCopy(original);
+				copy.getPosition().set((float) (5f - Math.random() * 10f), 0f,
+						(float) (5f - Math.random() * 10f));
 				PARTICLE_MANAGER.getSystems().add(copy);
 
 			}
 
 		}
 
-		
-		
 	}
 
 	public void selected(GeneratorSpace space) {
