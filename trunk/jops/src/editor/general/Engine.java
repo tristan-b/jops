@@ -6,6 +6,7 @@ import gui.DevToolBar;
 import input.InputManager;
 import renderer.ParticleRendererClient;
 import renderer.Renderer;
+import renderer.TriangleParticleRenderer;
 
 /**
  * 
@@ -43,7 +44,7 @@ public class Engine {
 		renderer = rend;
 		inputManager = new InputManager(rend.getStatus());
 		//particleManager.setup(rend.getStatus());
-		renderer.addClient(new ParticleRendererClient(particleManager));
+		renderer.addClient(new TriangleParticleRenderer(particleManager));
 	}
 
 	public Renderer getRenderer() {

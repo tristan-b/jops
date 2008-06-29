@@ -25,7 +25,6 @@ import org.softmed.jops.modifiers.PointMass;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.glu.Sphere;
 
-
 /**
  * 
  * @author eu
@@ -143,8 +142,8 @@ public class ParticleRendererClient extends RendererClient {
 				for (int j = 0; j < generators.size(); j++) {
 					gen = generators.get(j);
 					GL11.glPushMatrix();
-					GL11.glTranslatef(gen.getPosition().getX(), gen.getPosition().getY(),
-							-gen.getPosition().getZ());
+					GL11.glTranslatef(gen.getPosition().getX(), gen
+							.getPosition().getY(), -gen.getPosition().getZ());
 					GL11.glColor3f(0, 255, 0);
 					sphere.draw(indicatorSize, 15, 15);
 					GL11.glPopMatrix();
@@ -166,7 +165,8 @@ public class ParticleRendererClient extends RendererClient {
 						point = (PointMass) modifier;
 						GL11.glPushMatrix();
 						GL11.glTranslatef(point.getPosition().getX(), point
-								.getPosition().getY(), -point.getPosition().getZ());
+								.getPosition().getY(), -point.getPosition()
+								.getZ());
 
 						GL11.glColor3f(255, 0, 0);
 						sphere.draw(indicatorSize, 15, 15);
@@ -213,21 +213,21 @@ public class ParticleRendererClient extends RendererClient {
 		uy = status.getCamera().mUpVector.getY() * 0.5f;
 		uz = status.getCamera().mUpVector.getZ() * 0.5f;
 
-		topleft.setX( ux - sx );
-		topleft.setY( uy - sy );
-		topleft.setZ( uz - sz );
+		topleft.setX(ux - sx);
+		topleft.setY(uy - sy);
+		topleft.setZ(uz - sz);
 
-		topright.setX( ux + sx );
-		topright.setY( uy + sy );
-		topright.setZ( uz + sz );
+		topright.setX(ux + sx);
+		topright.setY(uy + sy);
+		topright.setZ(uz + sz);
 
-		bottomleft.setX( -ux - sx );
-		bottomleft.setY( -uy - sy );
-		bottomleft.setZ( -uz - sz );
+		bottomleft.setX(-ux - sx);
+		bottomleft.setY(-uy - sy);
+		bottomleft.setZ(-uz - sz);
 
-		bottomright.setX( -ux + sx );
-		bottomright.setY( -uy + sy );
-		bottomright.setZ( -uz + sz );
+		bottomright.setX(-ux + sx);
+		bottomright.setY(-uy + sy);
+		bottomright.setZ(-uz + sz);
 
 		for (int i = 0; i < systems.size(); i++) {
 			ps = systems.get(i);
@@ -302,24 +302,23 @@ public class ParticleRendererClient extends RendererClient {
 				 * .getAlphaByte()); //
 				 */
 
-				GL11.glColor4ub(part.color.getRedByte(), part.color.getGreenByte(),
-				                part.color.getBlueByte(), (byte) (part.alpha*255f));
+				GL11.glColor4ub(part.color.getRedByte(), part.color
+						.getGreenByte(), part.color.getBlueByte(),
+						(byte) (part.alpha * 255f));
 
 				tsize = part.size * 0.5f;
 
 				correctedVAngle = part.angleV - FastMath.PI_HALF;
 
-				up.setX( FastMath.cos(part.angleH)
-						* FastMath.sin(correctedVAngle) );
-				up.setZ( FastMath.sin(part.angleH)
-						* FastMath.sin(correctedVAngle) );
-				up.setY( FastMath.cos(correctedVAngle) );
+				up.setX(FastMath.cos(part.angleH)
+						* FastMath.sin(correctedVAngle));
+				up.setZ(FastMath.sin(part.angleH)
+						* FastMath.sin(correctedVAngle));
+				up.setY(FastMath.cos(correctedVAngle));
 
-				dir.setX( FastMath.cos(part.angleH)
-						* FastMath.sin(part.angleV) );
-				dir.setZ( FastMath.sin(part.angleH)
-						* FastMath.sin(part.angleV) );
-				dir.setY( FastMath.cos(part.angleV) );
+				dir.setX(FastMath.cos(part.angleH) * FastMath.sin(part.angleV));
+				dir.setZ(FastMath.sin(part.angleH) * FastMath.sin(part.angleV));
+				dir.setY(FastMath.cos(part.angleV));
 
 				side.cross(dir, up);
 
@@ -331,21 +330,21 @@ public class ParticleRendererClient extends RendererClient {
 				up.scale(height);
 				side.scale(width);
 
-				topleft.setX( up.getX() - side.getX() );
-				topleft.setY( up.getY() - side.getY() );
-				topleft.setZ( up.getZ() - side.getZ() );
+				topleft.setX(up.getX() - side.getX());
+				topleft.setY(up.getY() - side.getY());
+				topleft.setZ(up.getZ() - side.getZ());
 
-				topright.setX( up.getX() + side.getX() );
-				topright.setY( up.getY() + side.getY() );
-				topright.setZ( up.getZ() + side.getZ() );
+				topright.setX(up.getX() + side.getX());
+				topright.setY(up.getY() + side.getY());
+				topright.setZ(up.getZ() + side.getZ());
 
-				bottomleft.setX( -up.getX() - side.getX() );
-				bottomleft.setY( -up.getY() - side.getY() );
-				bottomleft.setZ( -up.getZ() - side.getZ() );
+				bottomleft.setX(-up.getX() - side.getX());
+				bottomleft.setY(-up.getY() - side.getY());
+				bottomleft.setZ(-up.getZ() - side.getZ());
 
-				bottomright.setX( -up.getX() + side.getX() );
-				bottomright.setY( -up.getY() + side.getY() );
-				bottomright.setZ( -up.getZ() + side.getZ() );
+				bottomright.setX(-up.getX() + side.getX());
+				bottomright.setY(-up.getY() + side.getY());
+				bottomright.setZ(-up.getZ() + side.getZ());
 
 				bottomrightT.set(bottomright);
 				bottomleftT.set(bottomleft);
@@ -371,10 +370,14 @@ public class ParticleRendererClient extends RendererClient {
 				rotate2f(tr, part.angle);
 				rotate2f(tl, part.angle);
 
-				bl.set(bl.getX() * texWidth + 0.5f, bl.getY() * texHeight + 0.5f);
-				br.set(br.getX() * texWidth + 0.5f, br.getY() * texHeight + 0.5f);
-				tr.set(tr.getX() * texWidth + 0.5f, tr.getY() * texHeight + 0.5f);
-				tl.set(tl.getX() * texWidth + 0.5f, tl.getY() * texHeight + 0.5f);
+				bl.set(bl.getX() * texWidth + 0.5f, bl.getY() * texHeight
+						+ 0.5f);
+				br.set(br.getX() * texWidth + 0.5f, br.getY() * texHeight
+						+ 0.5f);
+				tr.set(tr.getX() * texWidth + 0.5f, tr.getY() * texHeight
+						+ 0.5f);
+				tl.set(tl.getX() * texWidth + 0.5f, tl.getY() * texHeight
+						+ 0.5f);
 
 				/*
 				 * bl = bottomLeft[(int) part.spin]; br =
@@ -384,24 +387,28 @@ public class ParticleRendererClient extends RendererClient {
 				GL11.glTexCoord2f(bl.getX(), bl.getY());
 				// GL11.glTexCoord2f(0.0f, 0.0f);
 				GL11.glVertex3f(part.position.getX() + bottomleftT.getX(),
-						part.position.getY() + bottomleftT.getY(), -part.position.getZ()
-								- bottomleftT.getZ());
+						part.position.getY() + bottomleftT.getY(),
+						-part.position.getZ() - bottomleftT.getZ());
 
 				GL11.glTexCoord2f(br.getX(), br.getY());
 				// GL11.glTexCoord2f(1.0f, 0.0f);
 				GL11.glVertex3f(part.position.getX() + bottomrightT.getX(),
-						part.position.getY() + bottomrightT.getY(), -part.position.getZ()
-								- bottomrightT.getZ());
+						part.position.getY() + bottomrightT.getY(),
+						-part.position.getZ() - bottomrightT.getZ());
 
 				GL11.glTexCoord2f(tr.getX(), tr.getY());
 				// GL11.glTexCoord2f(1.0f, 1.0f);
-				GL11.glVertex3f(part.position.getX() + toprightT.getX(), part.position.getY()
-						+ toprightT.getY(), -part.position.getZ() - toprightT.getZ());
+				GL11.glVertex3f(part.position.getX() + toprightT.getX(),
+						part.position.getY() + toprightT.getY(), -part.position
+								.getZ()
+								- toprightT.getZ());
 
 				GL11.glTexCoord2f(tl.getX(), tl.getY());
 				// GL11.glTexCoord2f(0.0f, 1.0f);
-				GL11.glVertex3f(part.position.getX() + topleftT.getX(), part.position.getY()
-						+ topleftT.getY(), -part.position.getZ() - topleftT.getZ());
+				GL11.glVertex3f(part.position.getX() + topleftT.getX(),
+						part.position.getY() + topleftT.getY(), -part.position
+								.getZ()
+								- topleftT.getZ());
 
 			}
 		} else {
@@ -414,11 +421,11 @@ public class ParticleRendererClient extends RendererClient {
 				 * part.color.setAlpha((int) part.alpha);
 				 * GL11.glColor4ub(part.color.getRedByte(), part.color
 				 * .getGreenByte(), part.color.getBlueByte(), part.color
-				 * .getAlphaByte());
-				 *  //
+				 * .getAlphaByte()); //
 				 */
-				GL11.glColor4ub(part.color.getRedByte(), part.color.getGreenByte(),
-						        part.color.getBlueByte(), (byte) (part.alpha*255f));
+				GL11.glColor4ub(part.color.getRedByte(), part.color
+						.getGreenByte(), part.color.getBlueByte(),
+						(byte) (part.alpha * 255f));
 
 				tsize = part.size * 0.5f;
 
@@ -432,21 +439,21 @@ public class ParticleRendererClient extends RendererClient {
 				tdir.set(sx, sy, sz);
 				tdir.scale(width);
 
-				topleftT.setX( tup.getX() - tdir.getX() );
-				topleftT.setY( tup.getY() - tdir.getY() );
-				topleftT.setZ( tup.getZ() - tdir.getZ() );
+				topleftT.setX(tup.getX() - tdir.getX());
+				topleftT.setY(tup.getY() - tdir.getY());
+				topleftT.setZ(tup.getZ() - tdir.getZ());
 
-				toprightT.setX( tup.getX() + tdir.getX() );
-				toprightT.setY( tup.getY() + tdir.getY() );
-				toprightT.setZ( tup.getZ() + tdir.getZ() );
+				toprightT.setX(tup.getX() + tdir.getX());
+				toprightT.setY(tup.getY() + tdir.getY());
+				toprightT.setZ(tup.getZ() + tdir.getZ());
 
-				bottomleftT.setX( -tup.getX() - tdir.getX() );
-				bottomleftT.setY( -tup.getY() - tdir.getY() );
-				bottomleftT.setZ( -tup.getZ() - tdir.getZ() );
+				bottomleftT.setX(-tup.getX() - tdir.getX());
+				bottomleftT.setY(-tup.getY() - tdir.getY());
+				bottomleftT.setZ(-tup.getZ() - tdir.getZ());
 
-				bottomrightT.setX( -tup.getX() + tdir.getX() );
-				bottomrightT.setY( -tup.getY() + tdir.getY() );
-				bottomrightT.setZ( -tup.getZ() + tdir.getZ() );
+				bottomrightT.setX(-tup.getX() + tdir.getX());
+				bottomrightT.setY(-tup.getY() + tdir.getY());
+				bottomrightT.setZ(-tup.getZ() + tdir.getZ());
 				/*
 				 * System.out.println("----------------");
 				 * System.out.println("width->"+part.width+ "|
@@ -484,10 +491,14 @@ public class ParticleRendererClient extends RendererClient {
 				rotate2f(tr, part.angle);
 				rotate2f(tl, part.angle);
 
-				bl.set(bl.getX() * texWidth + 0.5f, bl.getY() * texHeight + 0.5f);
-				br.set(br.getX() * texWidth + 0.5f, br.getY() * texHeight + 0.5f);
-				tr.set(tr.getX() * texWidth + 0.5f, tr.getY() * texHeight + 0.5f);
-				tl.set(tl.getX() * texWidth + 0.5f, tl.getY() * texHeight + 0.5f);
+				bl.set(bl.getX() * texWidth + 0.5f, bl.getY() * texHeight
+						+ 0.5f);
+				br.set(br.getX() * texWidth + 0.5f, br.getY() * texHeight
+						+ 0.5f);
+				tr.set(tr.getX() * texWidth + 0.5f, tr.getY() * texHeight
+						+ 0.5f);
+				tl.set(tl.getX() * texWidth + 0.5f, tl.getY() * texHeight
+						+ 0.5f);
 				/*
 				 * System.out.println("----------------");
 				 * System.out.println(bl.toString());
@@ -498,24 +509,28 @@ public class ParticleRendererClient extends RendererClient {
 				GL11.glTexCoord2f(bl.getX(), bl.getY());
 				// GL11.glTexCoord2f(0.0f, 0.0f);
 				GL11.glVertex3f(part.position.getX() + bottomleftT.getX(),
-						part.position.getY() + bottomleftT.getY(), -part.position.getZ()
-								- bottomleftT.getZ());
+						part.position.getY() + bottomleftT.getY(),
+						-part.position.getZ() - bottomleftT.getZ());
 
 				GL11.glTexCoord2f(br.getX(), br.getY());
 				// GL11.glTexCoord2f(1.0f, 0.0f);
 				GL11.glVertex3f(part.position.getX() + bottomrightT.getX(),
-						part.position.getY() + bottomrightT.getY(), -part.position.getZ()
-								- bottomrightT.getZ());
+						part.position.getY() + bottomrightT.getY(),
+						-part.position.getZ() - bottomrightT.getZ());
 
 				GL11.glTexCoord2f(tr.getX(), tr.getY());
 				// GL11.glTexCoord2f(1.0f, 1.0f);
-				GL11.glVertex3f(part.position.getX() + toprightT.getX(), part.position.getY()
-						+ toprightT.getY(), -part.position.getZ() - toprightT.getZ());
+				GL11.glVertex3f(part.position.getX() + toprightT.getX(),
+						part.position.getY() + toprightT.getY(), -part.position
+								.getZ()
+								- toprightT.getZ());
 
 				GL11.glTexCoord2f(tl.getX(), tl.getY());
 				// GL11.glTexCoord2f(0.0f, 1.0f);
-				GL11.glVertex3f(part.position.getX() + topleftT.getX(), part.position.getY()
-						+ topleftT.getY(), -part.position.getZ() - topleftT.getZ());
+				GL11.glVertex3f(part.position.getX() + topleftT.getX(),
+						part.position.getY() + topleftT.getY(), -part.position
+								.getZ()
+								- topleftT.getZ());
 
 			}
 		}
@@ -529,10 +544,10 @@ public class ParticleRendererClient extends RendererClient {
 
 	protected void rotate2f(Vector2f v, float angle) {
 		// System.out.println(v.toString() + " angle->" + angle);
-		textureRotationTemp.setX( v.getX() * FastMath.cos(angle) - v.getY()
-				* FastMath.sin(angle) );
-		textureRotationTemp.setY( v.getX() * FastMath.sin(angle) + v.getY()
-				* FastMath.cos(angle) );
+		textureRotationTemp.setX(v.getX() * FastMath.cos(angle) - v.getY()
+				* FastMath.sin(angle));
+		textureRotationTemp.setY(v.getX() * FastMath.sin(angle) + v.getY()
+				* FastMath.cos(angle));
 		v.set(textureRotationTemp);
 		// System.out.println(v.toString());
 	}

@@ -29,6 +29,7 @@ import org.softmed.jops.space.GeneratorSpace;
 
 import renderer.ParticleRendererClient;
 import renderer.StandardGLRenderer;
+import renderer.TriangleParticleRenderer;
 
 public class DevToolBar extends JMenuBar implements ActionListener,
 		SpaceSelectionListener, ModifierCreatedListener {
@@ -347,12 +348,12 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		} else if (source == showAxis) {
 			StandardGLRenderer.showAxis = showAxis.isSelected();
 		} else if (source == showGenerators) {
-			ParticleRendererClient.showGenerators = showGenerators.isSelected();
+			TriangleParticleRenderer.showGenerators = showGenerators.isSelected();
 		} else if (source == showPointMasses) {
-			ParticleRendererClient.showPointMasses = showPointMasses
+			TriangleParticleRenderer.showPointMasses = showPointMasses
 					.isSelected();
 		} else if (source == showPointMassesTreshold) {
-			ParticleRendererClient.showPointMasseTreshold = showPointMassesTreshold
+			TriangleParticleRenderer.showPointMasseTreshold = showPointMassesTreshold
 					.isSelected();
 		} else if (source == about) {
 			JOptionPane.showMessageDialog(Editor.EDITOR,
