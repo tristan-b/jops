@@ -192,9 +192,9 @@ public class Textures {
 				GL11.GL_LINEAR);
 
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
-				(repeat ? GL11.GL_REPEAT : GL11.GL_CLAMP));
+				(repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
-				(repeat ? GL11.GL_REPEAT : GL11.GL_CLAMP));
+				(repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
 		// Generate The Texture
 		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, IL
 				.ilGetInteger(IL.IL_IMAGE_WIDTH), IL
