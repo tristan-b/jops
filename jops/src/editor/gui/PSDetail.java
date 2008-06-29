@@ -8,27 +8,30 @@ import javax.swing.JToolBar;
 import org.softmed.jops.ParticleManager;
 import org.softmed.jops.ParticleSystem;
 
+import renderer.StandardGLRenderer;
+import renderer.TriangleParticleRenderer;
 
 public class PSDetail extends JPanel {
-    
-    private static final long serialVersionUID = -3086040543169716830L;
-    
-    ParticleSystem particleSystem;
+
+	private static final long serialVersionUID = -3086040543169716830L;
+
+	ParticleSystem particleSystem;
 	ParticleManager manager;
 
 	PSTree tree = new PSTree();
-	
-	DevToolBar bar ;
+
+	DevToolBar bar;
 
 	DetailViewer dviewer = new DetailViewer();
 
-	public PSDetail(JToolBar jbar) {
+	public PSDetail(JToolBar jbar, StandardGLRenderer renderer,
+			TriangleParticleRenderer renderClient) {
 		tree.setChoiceListener(dviewer);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(tree.getPane());
 		add(dviewer);
-		
-		bar = new DevToolBar(jbar,tree,this);
+
+		bar = new DevToolBar(jbar, tree, this, renderer, renderClient);
 		dviewer.setBar(bar);
 		Editor.EDITOR.setJMenuBar(bar);
 	}
@@ -58,7 +61,5 @@ public class PSDetail extends JPanel {
 	public DetailViewer getDviewer() {
 		return dviewer;
 	}
-
-	
 
 }

@@ -21,7 +21,7 @@
 	<property name="jibx-lib" value="third-party/jibx" />
 
 	<property name="JOPS-Version" value="0.50" />
-	<property name="JOPS-Editor-Version" value="0.50" />
+	<property name="JOPS-Editor-Version" value="0.51" />
 
 
 
@@ -116,7 +116,7 @@
 		<copy file="third-party/lwjgl/win32/lwjgl.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 		<copy file="third-party/lwjgl/win32/lwjgl-devil.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 
-		<copy todir="${release}/jops-editor-win32-${JOPS-Version}/media">
+		<copy todir="${release}/jops-editor-win32-${JOPS-Editor-Version}/media">
 			<fileset dir="media" />
 		</copy>
 
@@ -155,7 +155,7 @@
 		<copy file="third-party/lwjgl/linux/liblwjgl64.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
 			<copy file="third-party/lwjgl/linux/liblwjgl-devil.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
 
-			<copy todir="${release}/jops-editor-linux-${JOPS-Version}/media">
+			<copy todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/media">
 				<fileset dir="media" />
 			</copy>
 

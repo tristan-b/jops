@@ -25,8 +25,8 @@ import renderer.lwjglbinding.GLInitEvent;
  */
 public class StandardGLRenderer extends  Renderer {
 	
-	public static boolean showGrid  = true;
-	public static boolean showAxis  = true;
+	public boolean showGrid  = true;
+	public boolean showAxis  = true;
 
 	
     GLCanvas canvas;
@@ -123,9 +123,10 @@ public class StandardGLRenderer extends  Renderer {
         GL11.glColor3f(1f,1f,1f);
         
         //RendererClient elem = null;
-        for (int i = 0; i < clients.size(); i++) {
-           clients.get(i).render();
-        }
+       client.render();
+//        for (int i = 0; i < clients.size(); i++) {
+//           clients.get(i).render();
+//        }
     
     }
 

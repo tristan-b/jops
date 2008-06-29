@@ -7,6 +7,7 @@ import java.util.List;
 import timer.FrameRater;
 import view.Camera;
 import view.Display;
+
 /*
  * GLRenderer.java
  *
@@ -17,57 +18,66 @@ import view.Display;
  */
 
 /**
- *
+ * 
  * @author eu
  */
 public abstract class Renderer {
-    
-    protected List<RendererClient> clients = new ArrayList<RendererClient>();
-    protected RendererStatus status = new RendererStatus();
-    protected EventList events = new EventList();
-    
-    public void render() {
-        //first process pending GLevents - init, etc
-        events.processEvents();
 
-        cleanScene();
-        setupScene();
-        draw();
-       
-        getStatus().getFrameRater().calculateFrameRate();
-    }
+	// protected List<RendererClient> clients = new ArrayList<RendererClient>();
+	RendererClient client;
+	protected RendererStatus status = new RendererStatus();
+	protected EventList events = new EventList();
 
-    protected abstract void cleanScene();
-    protected abstract void draw();
-    protected abstract void setupScene();
+	public void render() {
+		// first process pending GLevents - init, etc
+		events.processEvents();
 
-    public Camera getCamera() {
-        return getStatus().getCamera();
-    }
+		cleanScene();
+		setupScene();
+		draw();
 
- 
-    public FrameRater getFrameRater() {
-        return getStatus().getFrameRater();
-    }
+		getStatus().getFrameRater().calculateFrameRate();
+	}
 
-    public EventList getEvents() {
-        return events;
-    }
+	protected abstract void cleanScene();
 
-    public Display getDisplay() {
-        return getStatus().getDisplay();
-    }
+	protected abstract void draw();
 
-    public RendererStatus getStatus() {
-        return status;
-    }
+	protected abstract void setupScene();
 
-  
-    
-    public void addClient(RendererClient client)
-    {
-    	clients.add(client);
-    	client.setStatus(status);
-    }
-    
+	public Camera getCamera() {
+		return getStatus().getCamera();
+	}
+
+	public FrameRater getFrameRater() {
+		return getStatus().getFrameRater();
+	}
+
+	public EventList getEvents() {
+		return events;
+	}
+
+	public Display getDisplay() {
+		return getStatus().getDisplay();
+	}
+
+	public RendererStatus getStatus() {
+		return status;
+	}
+
+	public RendererClient getClient() {
+		return client;
+	}
+
+	public void setClient(RendererClient client) {
+		this.client = client;
+		client.setStatus(status);
+	}
+
+	// public void addClient(RendererClient client)
+	// {
+	// clients.add(client);
+	// client.setStatus(status);
+	// }
+
 }

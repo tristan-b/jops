@@ -26,7 +26,7 @@ public class FileLoader implements ActionListener {
 	
 	String name ;
 	
-	public static FileStatus fileStatus = new FileStatus();
+	public static FileStatus fileStatus = new FileStatus(new File("./media/particle_systems"));
 
 	static PSDetail detail;
 
@@ -50,7 +50,7 @@ public class FileLoader implements ActionListener {
 		convertDirectory.addActionListener(this);
 		//*/
 		
-		fileStatus.setDirectory(new File("./media/particle_systems"));
+//		fileStatus.setDirectory();
 
 	}
 

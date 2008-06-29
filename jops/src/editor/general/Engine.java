@@ -21,7 +21,7 @@ public class Engine {
 
 	boolean setup = false;
 
-	double dt ;
+	double dt;
 
 	private int counter;
 
@@ -36,15 +36,16 @@ public class Engine {
 	private long second;
 
 	private long startTotalTime;
-	
+
 	/** Creates a new instance of Engine */
 	public Engine(Renderer rend) {
 		particleManager.setGameMode(false);
 		DevToolBar.PARTICLE_MANAGER = particleManager;
 		renderer = rend;
 		inputManager = new InputManager(rend.getStatus());
-		//particleManager.setup(rend.getStatus());
-		renderer.addClient(new TriangleParticleRenderer(particleManager));
+		// particleManager.setup(rend.getStatus());
+		// renderer.addClient(new TriangleParticleRenderer(particleManager));
+		renderer.setClient(new TriangleParticleRenderer(particleManager));
 	}
 
 	public Renderer getRenderer() {
@@ -52,31 +53,30 @@ public class Engine {
 	}
 
 	public void runFrame() {
-		
-		
+
 		if (!setup) {
 			setup = true;
 			return;
 		}
 
-		
 		renderer.render();
 		getInputManager().process();
 		start = System.nanoTime();
 		getParticleManager().process(renderer.getFrameRater().getTimeLapse());
 		finish = System.nanoTime();
 		diff = finish - start;
-		second += System.nanoTime()-startTotalTime;
+		second += System.nanoTime() - startTotalTime;
 		startTotalTime = System.nanoTime();
 		oldcounter = counter;
 		counter++;
-		dt = dt*(double)((double)oldcounter/(double)counter)+diff*(double)(1d/(double)counter);
-		if(second>1000000000)
-		{
-		//	System.out.println("particle system performance " + dt / 1000000000.0 + " s / "
-		//			+ dt/1000000 + " ms / " + dt + " nanos");
+		dt = dt * (double) ((double) oldcounter / (double) counter) + diff
+				* (double) (1d / (double) counter);
+		if (second > 1000000000) {
+			// System.out.println("particle system performance " + dt /
+			// 1000000000.0 + " s / "
+			// + dt/1000000 + " ms / " + dt + " nanos");
 			second = 0;
-			dt= 0;
+			dt = 0;
 			counter = 0;
 		}
 
