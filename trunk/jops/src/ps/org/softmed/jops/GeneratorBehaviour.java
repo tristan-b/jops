@@ -11,28 +11,29 @@ package org.softmed.jops;
 
 import java.util.List;
 
-
 import org.openmali.FastMath;
 import org.openmali.vecmath2.Colorf;
 import org.openmali.vecmath2.Matrix4f;
+import org.openmali.vecmath2.Point3f;
 import org.openmali.vecmath2.Vector3f;
+import org.softmed.jops.math.AnglesFastMath;
 import org.softmed.jops.operators.ParticleOperator;
 import org.softmed.jops.random.RandomGenerator;
 import org.softmed.jops.valuelists.ValueListf;
 
-//import particle.math.ParticleFastMath;
+// import particle.math.ParticleFastMath;
 
 /**
  * 
  * @author eu
  */
-public class GeneratorBehaviour extends ParticleBehaviour{
-	
-	
+public class GeneratorBehaviour extends ParticleBehaviour {
+
+	Vector3f vector = new Vector3f();
 
 	private List<Particle> particles;
 
-//	ParticleFastMath math = new ParticleFastMath();
+	// ParticleFastMath math = new ParticleFastMath();
 
 	RandomGenerator rand = new RandomGenerator();
 
@@ -47,7 +48,7 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	private ValueListf spinV = new ValueListf();
 
 	private ValueListf spinH = new ValueListf();
-	
+
 	private ValueListf angleSpreadV = new ValueListf();
 
 	private ValueListf angleSpreadH = new ValueListf();
@@ -82,11 +83,11 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	private float currentAngleH;
 
 	private float currentAngleV;
-	
+
 	private float currentSpinH;
 
 	private float currentSpinV;
-	
+
 	private float oldSpinH;
 
 	private float oldSpinV;
@@ -101,28 +102,26 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 
 	private float currentAngle;
 	/*
-    private float currentPAndleH;
-    
-	private float currentPAndleV;
-    
-	private float currentPSpinH;
-    
-	private float currentPSpinV;
-	
-	private float currentWidth, currentHeight;
-	
-	private float currentTexWidth, currentTexHeight;
-	//*/
-    
+	 * private float currentPAndleH;
+	 * 
+	 * private float currentPAndleV;
+	 * 
+	 * private float currentPSpinH;
+	 * 
+	 * private float currentPSpinV;
+	 * 
+	 * private float currentWidth, currentHeight;
+	 * 
+	 * private float currentTexWidth, currentTexHeight; //
+	 */
+
 	private float time;
 
 	private Matrix4f rotation;
-	
-    
-    
-    @Override
+
+	@Override
 	public void rebuild() {
-//		math = new ParticleFastMath();
+		// math = new ParticleFastMath();
 		rand = new RandomGenerator();
 
 	}
@@ -144,8 +143,8 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		recompile();
 
 	}
-    
-    @Override
+
+	@Override
 	public void recompile() {
 		thisrebuildIfNecessary();
 
@@ -156,24 +155,21 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		angleV.compileArray();
 		angleH.compileArray();
 		spinV.compileArray();
-		spinH.compileArray();		
+		spinH.compileArray();
 		angleSpreadV.compileArray();
 		angleSpreadH.compileArray();
 
 	}
 
 	private void thisrebuildIfNecessary() {
-		if(spinV==null)
+		if (spinV == null)
 			spinV = new ValueListf();
 
-		if(spinH==null)
+		if (spinH == null)
 			spinH = new ValueListf();
 
-	
 	}
 
-	
-	
 	public void setInitialState(Particle temp, float diference) {
 
 		temp.speed = speed.getValueAt(time);
@@ -182,7 +178,7 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		temp.age = 0.0f;
 
 		temp.alpha = alpha.getValueAt(time);
-		temp.color = new Colorf( color.getValueAt(time));
+		temp.color = new Colorf(color.getValueAt(time));
 
 		temp.mass = mass.getValueAt(time);
 		temp.spin = spin.getValueAt(time);
@@ -207,17 +203,22 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		cosV = FastMath.cos(vangleV);
 		sinV = FastMath.sin(vangleV);
 
-		temp.direction.setX( sinH * cosV );
-		temp.direction.setY( sinV );
-		temp.direction.setZ( cosH * cosV );
+		temp.direction.setX(sinH * cosV);
+		temp.direction.setY(sinV);
+		temp.direction.setZ(cosH * cosV);
 
 		temp.direction.normalize();
-		
-		if(rotation!=null)
+
+		if (rotation != null) {
 			rotation.transform(temp.direction);
+		}
 
 		temp.angleH = particleAngleH.getValueAt(time);
 		temp.angleV = particleAngleV.getValueAt(time);
+
+		if (rotation != null) {
+			temp.rotation = new Matrix4f(rotation);
+		}
 
 		temp.spinH = particleSpinH.getValueAt(time);
 		temp.spinV = particleSpinV.getValueAt(time);
@@ -229,7 +230,7 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		temp.texWidth = texWidth.getValueAt(time);
 
 	}
-	
+
 	public void update(float time, float timelapse) {
 
 		this.time = time;
@@ -242,58 +243,53 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 		currentSize = size.getValueAt(time);
 		currentBounce = elasticity.getValueAt(time);
 		currentSpeed = speed.getValueAt(time);
-		
+
 		/*
-		currentPAndleH = particleAngleH.getValueAt(time);
-		currentPAndleV = particleAngleV.getValueAt(time);
-
-		currentPSpinH = particleSpinH.getValueAt(time);
-		currentPSpinV = particleSpinV.getValueAt(time);
-
-		//*/
+		 * currentPAndleH = particleAngleH.getValueAt(time); currentPAndleV =
+		 * particleAngleV.getValueAt(time);
+		 * 
+		 * currentPSpinH = particleSpinH.getValueAt(time); currentPSpinV =
+		 * particleSpinV.getValueAt(time); //
+		 */
 		// update aditional generator specific current values
 		currentLife = life.getValueAt(time);
 		currentRate = rate.getValueAt(time);
 
 		currentAngleH = angleH.getValueAt(time);
 		currentAngleV = angleV.getValueAt(time);
-		
+
 		currentSpinH = spinH.getValueAt(time);
 		currentSpinV = spinV.getValueAt(time);
 
-		oldSpinV+=currentSpinV*timelapse;
-		oldSpinH+=currentSpinH*timelapse;
-		
-		if(oldSpinV>=360)
-			oldSpinV%=360;
-		else
-			if(oldSpinV<-360)
-				oldSpinV=-oldSpinV%360;
-			
-		if(oldSpinH>=360)
-			oldSpinH%=360;
-		else
-			if(oldSpinH<-360)
-				oldSpinH=-oldSpinH%360;
-			
+		oldSpinV += currentSpinV * timelapse;
+		oldSpinH += currentSpinH * timelapse;
 
-		
-		currentAngleH+=oldSpinH;
-		currentAngleV+=oldSpinV;
-		
+		if (oldSpinV >= 360)
+			oldSpinV %= 360;
+		else if (oldSpinV < -360)
+			oldSpinV = -oldSpinV % 360;
+
+		if (oldSpinH >= 360)
+			oldSpinH %= 360;
+		else if (oldSpinH < -360)
+			oldSpinH = -oldSpinH % 360;
+
+		currentAngleH += oldSpinH;
+		currentAngleV += oldSpinV;
+
 		currentAngleSpreadH = angleSpreadH.getValueAt(time);
 		currentAngleSpreadV = angleSpreadV.getValueAt(time);
 
 		/*
-		currentWidth = width.getValueAt(time);
-		currentHeight = height.getValueAt(time);
-
-		currentTexWidth = texWidth.getValueAt(time);
-		currentTexHeight = texHeight.getValueAt(time);
-	//*/
+		 * currentWidth = width.getValueAt(time); currentHeight =
+		 * height.getValueAt(time);
+		 * 
+		 * currentTexWidth = texWidth.getValueAt(time); currentTexHeight =
+		 * texHeight.getValueAt(time); //
+		 */
 	}
-    
-    @Override
+
+	@Override
 	public void setParticles(List<Particle> particles) {
 		this.particles = particles;
 	}
@@ -365,64 +361,7 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	public float getCurrentLife() {
 		return currentLife;
 	}
-/*
-	public void setInitialState(Particle temp, float diference) {
 
-		temp.speed = currentSpeed;
-
-		temp.life = currentLife;// -diference;
-		temp.age = 0.0f;
-
-		temp.alpha = currentAlpha;
-		temp.color = new Color(currentColor);
-
-		temp.mass = currentMass;
-		temp.spin = currentSpin;
-		temp.angle = currentAngle;
-		temp.size = currentSize;
-		temp.bounce = currentBounce;
-
-		vangleH = rand.getFloat(currentAngleSpreadH);
-		vangleV = rand.getFloat(currentAngleSpreadV);
-
-		if (currentAngleSpreadH > 0)
-			vangleH = vangleH - currentAngleSpreadH / 2;
-
-		if (currentAngleSpreadV > 0)
-			vangleV = vangleV - currentAngleSpreadV / 2;
-
-		vangleH += currentAngleH;
-		vangleV += currentAngleV;
-
-		cosH = math.cos(vangleH);
-		sinH = math.sin(vangleH);
-		cosV = math.cos(vangleV);
-		sinV = math.sin(vangleV);
-
-		temp.direction.x = sinH * cosV;
-		temp.direction.y = sinV;
-		temp.direction.z = cosH * cosV;
-
-		temp.direction.normalise();
-
-		temp.angleH = currentPAndleH;
-		temp.angleV = currentPAndleV;
-
-		temp.spinH = currentPSpinH;
-		temp.spinV = currentPSpinV;
-
-		temp.height = currentHeight;
-		temp.width = currentWidth;
-
-		temp.texHeight = currentTexHeight;
-		temp.texWidth = currentTexWidth;
-
-	}
-//*/
-	
-	
-	
-	
 	public ValueListf getAngleV() {
 		return angleV;
 	}
@@ -438,8 +377,8 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	public ValueListf getAngleSpreadH() {
 		return angleSpreadH;
 	}
-	
-    @Override
+
+	@Override
 	public ValueListf getSpeed() {
 		return speed;
 	}
@@ -470,8 +409,8 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	 * public void setAbsoluteParticleAngle(boolean absoluteParticleAngle) {
 	 * this.absoluteParticleAngle = absoluteParticleAngle; } //
 	 */
-	
-    @Override
+
+	@Override
 	public void setResolution(int resolution) {
 		super.setResolution(resolution);
 		speed.setResolution(resolution);
@@ -501,13 +440,13 @@ public class GeneratorBehaviour extends ParticleBehaviour{
 	}
 
 	public void reset() {
-		oldSpinV=0f;
-		oldSpinH=0f;		
+		oldSpinV = 0f;
+		oldSpinH = 0f;
 	}
 
 	public void setRotation(Matrix4f rotation) {
 		this.rotation = rotation;
-		
+
 	}
 
 }
