@@ -18,24 +18,20 @@ public class AnglesFastMath {
 	static float tan[];
 
 	static float arctan[];
-	static int maxArcTanValue = (int)(Math.PI * 1000 * 2);
+	static int maxArcTanValue = (int) (Math.PI * 1000 * 2);
 
 	public AnglesFastMath() {
 	}
-	
-	
-	
+
 	public static float atan(float value) {
-		return atan((int)value);
+		return atan((int) value);
 	}
 
-	public  static float tan(float angle) {
-		return tan((int)angle);
+	public static float tan(float angle) {
+		return tan((int) angle);
 	}
 
-	
-	
-	public  static float atan(int value) {
+	public static float atan(int value) {
 		if (value < 0)
 			value = -value;
 
@@ -44,7 +40,7 @@ public class AnglesFastMath {
 		return arctan[value];
 	}
 
-	public  static float tan(int angle) {
+	public static float tan(int angle) {
 		angle %= 360;
 
 		if (angle < 0)
@@ -53,7 +49,7 @@ public class AnglesFastMath {
 		return tan[angle];
 	}
 
-	public  static float sin(int angle) {
+	public static float sin(int angle) {
 		angle %= 360;
 
 		if (angle < 0)
@@ -62,7 +58,7 @@ public class AnglesFastMath {
 		return sin[angle];
 	}
 
-	public  static float cos(int angle) {
+	public static float cos(int angle) {
 		if (angle < 0)
 			angle = -angle;
 
@@ -71,7 +67,7 @@ public class AnglesFastMath {
 		return cos[angle];
 	}
 
-	public  static float sin(float angle) {
+	public static float sin(float angle) {
 		angle %= 360f;
 
 		if (angle < 0)
@@ -80,7 +76,7 @@ public class AnglesFastMath {
 		return sin[(int) angle];
 	}
 
-	public  static float cos(float angle) {
+	public static float cos(float angle) {
 		angle %= 360f;
 
 		if (angle < 0)
@@ -93,34 +89,54 @@ public class AnglesFastMath {
 		System.out.println(mgs);
 	}
 
-	
+	public static void convertSphericalToCartesian(float horizontalAngle,
+			float verticalAngle, Point3f destination) {
+		destination.setX(cos(horizontalAngle) * sin(verticalAngle));
+		destination.setZ(sin(horizontalAngle) * sin(verticalAngle));
+		destination.setY(cos(verticalAngle));
+	}
 
-	public  static void convertSphericalToCartesian(float horizontalAngle,
-			float verticalAngle, Point3f destination) {
-		destination.setX( cos(horizontalAngle) * sin(verticalAngle) );
-		destination.setZ( sin(horizontalAngle) * sin(verticalAngle) );
-		destination.setY( cos(verticalAngle) );
+	public static void convertSphericalToCartesianRadians(
+			float horizontalAngle, float verticalAngle, Vector3f destination) {
+		destination.setX(FastMath.cos(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setY(FastMath.sin(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setZ(FastMath.cos(verticalAngle));
 	}
-	
-	public  static  void convertSphericalToCartesianRadians(float horizontalAngle,
+
+	// used in camera
+	public static void convertSphericalToCartesian(float horizontalAngle,
 			float verticalAngle, Vector3f destination) {
-		destination.setX( FastMath.cos(horizontalAngle) * FastMath.sin(verticalAngle) );
-		destination.setZ( FastMath.sin(horizontalAngle) * FastMath.sin(verticalAngle) );
-		destination.setY( FastMath.cos(verticalAngle) );
+		destination.setX(cos(horizontalAngle) * sin(verticalAngle));
+		destination.setZ(sin(horizontalAngle) * sin(verticalAngle));
+		destination.setY(cos(verticalAngle));
 	}
-	
-	public  static void convertSphericalToCartesian(float horizontalAngle,
-			float verticalAngle, Vector3f destination) {
-		destination.setX( cos(horizontalAngle) * sin(verticalAngle) );
-		destination.setZ( sin(horizontalAngle) * sin(verticalAngle) );
-		destination.setY( cos(verticalAngle) );
+
+	public static void convertSphericalToCartesianCorrect(
+			float horizontalAngle, float verticalAngle, Vector3f destination) {
+		destination.setX(sin(horizontalAngle) * cos(verticalAngle));
+		destination.setZ(cos(horizontalAngle) * cos(verticalAngle));
+		destination.setY(sin(verticalAngle));
 	}
-	
-	public  static  void convertSphericalToCartesianRadians(float horizontalAngle,
-			float verticalAngle, Point3f destination) {
-		destination.setX( FastMath.cos(horizontalAngle) * FastMath.sin(verticalAngle) );
-		destination.setZ( FastMath.sin(horizontalAngle) * FastMath.sin(verticalAngle) );
-		destination.setY( FastMath.cos(verticalAngle) );
+
+	public static void convertSphericalToCartesianCorrectRadians(
+			float horizontalAngle, float verticalAngle, Vector3f destination) {
+		destination.setX(FastMath.cos(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setZ(FastMath.sin(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setY(FastMath.cos(verticalAngle));
+	}
+
+	// used in sphere generator
+	public static void convertSphericalToCartesianRadians(
+			float horizontalAngle, float verticalAngle, Point3f destination) {
+		destination.setX(FastMath.cos(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setZ(FastMath.sin(horizontalAngle)
+				* FastMath.sin(verticalAngle));
+		destination.setY(FastMath.cos(verticalAngle));
 	}
 
 	static {
@@ -137,7 +153,6 @@ public class AnglesFastMath {
 			tan[i] = (float) Math.tan(Math.toRadians(value));
 		}
 
-		
 		for (int i = 0; i < maxArcTanValue; i++) {
 			arctan[i] = (float) Math.atan((double) ((float) i / 2000.0f));
 		}

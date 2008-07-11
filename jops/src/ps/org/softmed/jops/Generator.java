@@ -19,8 +19,6 @@ import org.softmed.jops.modifiers.Modifier;
 import org.softmed.jops.space.GeneratorSpace;
 import org.softmed.jops.space.PointGenerator;
 
-
-
 /**
  * 
  * @author gui
@@ -59,25 +57,25 @@ public class Generator extends InfoObject {
 
 	private Modifier modifier;
 
-	//private Point3f ctf;
+	// private Point3f ctf;
 
 	private Point3f position = new Point3f();
 
-	//private Particle tp;
+	// private Particle tp;
 
 	private float totalGenerated;
 
 	private int resolution;
 
 	private float betweenGenerateCycles;
-	
-	//protected Vector3f translation;
-	
-	//protected Matrix4f rotation;
+
+	// protected Vector3f translation;
+
+	// protected Matrix4f rotation;
 
 	// private float betweenGenerateCycles = 0f;
 
-	//variables for JIXB loading, saving - object references
+	// variables for JIXB loading, saving - object references
 	int particleBehaviourIndex;
 	int generatorBehaviourIndex;
 	int spaceIndex;
@@ -85,13 +83,10 @@ public class Generator extends InfoObject {
 	int renderIndex;
 	int positionAnimatorIndex;
 	List<Integer> modifierIndexes;
-	//String  modifierIndexes;
+	// String modifierIndexes;
 
 	private Matrix3f tempRotation = new Matrix3f();;
-	
-	
-	
-	
+
 	public Generator getCopy() {
 		Generator gen = (Generator) super.clone();
 		gen.setAbsoluteParticleAngle(absoluteParticleAngle);
@@ -149,12 +144,13 @@ public class Generator extends InfoObject {
 			pb.setParticles(particles);
 	}
 
-	public void update(Point3f position2,Matrix4f rotation, float systemAge, float timelapse) {
+	public void update(Point3f position2, Matrix4f rotation, float systemAge,
+			float timelapse) {
 		if (!alive)
 			return;
 		age = systemAge;
 
-		generate(position2,rotation,timelapse);
+		generate(position2, rotation, timelapse);
 
 		if (pb != null) {
 			pb.setParticles(particles);
@@ -198,7 +194,7 @@ public class Generator extends InfoObject {
 		}
 	}
 
-	protected void generate(Point3f position2,Matrix4f rotation, float dt) {
+	protected void generate(Point3f position2, Matrix4f rotation, float dt) {
 
 		// if(dt>0.2f)
 		// System.out.println("dt->"+dt);
@@ -208,15 +204,15 @@ public class Generator extends InfoObject {
 		position.set(0f, 0f, 0f);
 		if (animator != null)
 			animator.setInitialPosition(position);
-		//position.add(position2);
-		if(rotation!=null){
-		rotation.transform(position);
-		
-		rotation.getRotationScale(tempRotation);
+		// position.add(position2);
+		if (rotation != null) {
+			rotation.transform(position);
+
+			rotation.getRotationScale(tempRotation);
 		}
 
 		float x = gb.getCurrentRate();
-		
+
 		gb.setRotation(rotation);
 		x *= dt;
 		// x*=betweenGenerateCycles;
@@ -234,7 +230,7 @@ public class Generator extends InfoObject {
 		rest *= dt;
 
 		// betweenGenerateCycles /= frameCount;
-		//float particleDiference = dt / frameCount;
+		// float particleDiference = dt / frameCount;
 		// recycles dead particles
 		if (killParticles) {
 			if (regenerateParticles && recycledCount < frameCount) {
@@ -252,13 +248,14 @@ public class Generator extends InfoObject {
 						if (positionAnimator != null)
 							positionAnimator.setInitialPosition(temp.position);
 
-						//Vector3f.add(temp.position, position, temp.position);
-						//Vector3f.add(temp.position, psPosition, temp.position);
-						
+						// Vector3f.add(temp.position, position, temp.position);
+						// Vector3f.add(temp.position, psPosition,
+						// temp.position);
+
 						temp.position.add(position);
 						temp.position.add(position2);
-						
-						if(rotation!=null)
+
+						if (rotation != null)
 							tempRotation.transform(temp.position);
 
 						if (space != null)
@@ -299,14 +296,14 @@ public class Generator extends InfoObject {
 				if (positionAnimator != null)
 					positionAnimator.setInitialPosition(temp.position);
 
-				//Vector3f.add(temp.position, position, temp.position);
+				// Vector3f.add(temp.position, position, temp.position);
 				temp.position.add(position);
 				temp.position.add(position2);
-				//Vector3f.add(temp.position, psPosition, temp.position);
+				// Vector3f.add(temp.position, psPosition, temp.position);
 
-				if(rotation!=null)
+				if (rotation != null)
 					tempRotation.transform(temp.position);
-				
+
 				if (gb != null)
 					gb.setInitialState(temp, 0.0f);
 
@@ -481,9 +478,10 @@ public class Generator extends InfoObject {
 	public void setGeneratorBehaviourIndex(int generatorBehaviourIndex) {
 		this.generatorBehaviourIndex = generatorBehaviourIndex;
 	}
-/*
 
-//*/
+	/*
+	 *  //
+	 */
 	public int getParticleBehaviourIndex() {
 		return particleBehaviourIndex;
 	}
@@ -523,15 +521,13 @@ public class Generator extends InfoObject {
 	public void setSpaceIndex(int spaceIndex) {
 		this.spaceIndex = spaceIndex;
 	}
-/*
-	public String getModifierIndexes() {
-		return modifierIndexes;
-	}
 
-	public void setModifierIndexes(String modifierIndexes) {
-		this.modifierIndexes = modifierIndexes;
-	}
-//*/
+	/*
+	 * public String getModifierIndexes() { return modifierIndexes; }
+	 * 
+	 * public void setModifierIndexes(String modifierIndexes) {
+	 * this.modifierIndexes = modifierIndexes; } //
+	 */
 	public List<Integer> getModifierIndexes() {
 		return modifierIndexes;
 	}
@@ -540,13 +536,12 @@ public class Generator extends InfoObject {
 		this.modifierIndexes = modifierIndexes;
 	}
 
-//	public Matrix4f getRotation() {
-//		return rotation;
-//	}
-//
-//	public void setRotation(Matrix4f rotation) {
-//		this.rotation = rotation;
-//	}
-	
-	
+	// public Matrix4f getRotation() {
+	// return rotation;
+	// }
+	//
+	// public void setRotation(Matrix4f rotation) {
+	// this.rotation = rotation;
+	// }
+
 }
