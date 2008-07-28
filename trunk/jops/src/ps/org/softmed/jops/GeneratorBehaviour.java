@@ -118,6 +118,7 @@ public class GeneratorBehaviour extends ParticleBehaviour {
 	private float time;
 
 	private Matrix4f rotation;
+	private Matrix4f frameRotation;
 
 	@Override
 	public void rebuild() {
@@ -211,14 +212,11 @@ public class GeneratorBehaviour extends ParticleBehaviour {
 
 		if (rotation != null) {
 			rotation.transform(temp.direction);
+			temp.rotation = frameRotation;
 		}
 
 		temp.angleH = particleAngleH.getValueAt(time);
 		temp.angleV = particleAngleV.getValueAt(time);
-
-		if (rotation != null) {
-			temp.rotation = new Matrix4f(rotation);
-		}
 
 		temp.spinH = particleSpinH.getValueAt(time);
 		temp.spinV = particleSpinV.getValueAt(time);
@@ -404,7 +402,8 @@ public class GeneratorBehaviour extends ParticleBehaviour {
 	}
 
 	/*
-	 * public boolean isAbsoluteParticleAngle() { return absoluteParticleAngle; }
+	 * public boolean isAbsoluteParticleAngle() { return absoluteParticleAngle;
+	 * }
 	 * 
 	 * public void setAbsoluteParticleAngle(boolean absoluteParticleAngle) {
 	 * this.absoluteParticleAngle = absoluteParticleAngle; } //
@@ -446,7 +445,10 @@ public class GeneratorBehaviour extends ParticleBehaviour {
 
 	public void setRotation(Matrix4f rotation) {
 		this.rotation = rotation;
-
+		if (rotation != null)
+			this.frameRotation = new Matrix4f(rotation);
+		else
+			this.frameRotation = null;
 	}
 
 }
