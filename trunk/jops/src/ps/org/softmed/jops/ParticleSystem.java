@@ -17,12 +17,13 @@ import org.openmali.vecmath2.Point3f;
 import org.softmed.jops.modifiers.Modifier;
 import org.softmed.jops.space.GeneratorSpace;
 
-
 /**
  * 
  * @author gui
  */
 public class ParticleSystem extends InfoObject {
+
+	public boolean printRotMatrix = false;
 
 	public static final int DEFAULT_RESOLUTION = 30;
 
@@ -104,7 +105,7 @@ public class ParticleSystem extends InfoObject {
 		for (GeneratorBehaviour genBehaviour : genBehaviours) {
 			genBehaviour.reset();
 		}
-		
+
 		for (GeneratorSpace space : spaces) {
 			space.reset();
 		}
@@ -244,6 +245,18 @@ public class ParticleSystem extends InfoObject {
 	public void processFrame(float dt) {
 		if (!alive)
 			return;
+
+		if (rotation != null && printRotMatrix) {
+			System.out.println("rot matrix");
+			System.out.println(rotation.m00() + "," + rotation.m10() + ","
+					+ rotation.m20() + "," + rotation.m30());
+			System.out.println(rotation.m01() + "," + rotation.m11() + ","
+					+ rotation.m21() + "," + rotation.m31());
+			System.out.println(rotation.m02() + "," + rotation.m12() + ","
+					+ rotation.m22() + "," + rotation.m32());
+			System.out.println(rotation.m03() + "," + rotation.m13() + ","
+					+ rotation.m23() + "," + rotation.m33());
+		}
 
 		updateLife(dt);
 
@@ -551,5 +564,4 @@ public class ParticleSystem extends InfoObject {
 
 	}
 
-	
 }
