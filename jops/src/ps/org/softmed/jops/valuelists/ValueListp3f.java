@@ -38,13 +38,13 @@ public class ValueListp3f extends GeneralRandomValueList<Point3f>{
 		
 		List<GenericValue> values = mainValueList.getValues();
 		for (GenericValue value : values) {
-			copy.mainValueList.addValue(new Point3f((Point3f) value.getValue()),value.getTime());
+			copy.mainValueList.setValue(new Point3f((Point3f) value.getValue()),value.getTime());
 			copy.mainValueList.repeat = mainValueList.repeat;
 		}
 		
 		values = randomValueList.getValues();
 		for (GenericValue value : values) {
-			copy.randomValueList.addValue(new Point3f((Point3f) value.getValue()),value.getTime());
+			copy.randomValueList.setValue(new Point3f((Point3f) value.getValue()),value.getTime());
 			copy.randomValueList.repeat = randomValueList.repeat;
 		}
 		

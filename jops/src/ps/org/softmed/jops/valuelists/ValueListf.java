@@ -28,13 +28,13 @@ public class ValueListf extends GeneralRandomValueList<Float>{
 		
 		List<GenericValue> values = mainValueList.getValues();
 		for (GenericValue value : values) {
-			copy.mainValueList.addValue(new Float((Float) value.getValue()),value.getTime());
+			copy.mainValueList.setValue(new Float((Float) value.getValue()),value.getTime());
 			copy.mainValueList.repeat = mainValueList.repeat;
 		}
 		
 		values = randomValueList.getValues();
 		for (GenericValue value : values) {
-			copy.randomValueList.addValue(new Float((Float) value.getValue()),value.getTime());
+			copy.randomValueList.setValue(new Float((Float) value.getValue()),value.getTime());
 			copy.randomValueList.repeat = randomValueList.repeat;
 		}
 		

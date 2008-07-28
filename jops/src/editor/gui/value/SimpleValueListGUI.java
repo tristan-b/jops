@@ -244,7 +244,7 @@ public class SimpleValueListGUI extends SizeablePanel implements EditActionListe
 			content.add(vgui, index + 1);
 			list.add(vgui);
 
-			gvaluelist.addValue(elem);
+			gvaluelist.setValue(elem);
 			gvaluelist.compileArray();
 			signalChange();
 

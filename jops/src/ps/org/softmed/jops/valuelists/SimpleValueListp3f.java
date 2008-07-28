@@ -24,7 +24,7 @@ public class SimpleValueListp3f extends SimpleGenericValueList<Point3f>{
 
     public SimpleValueListp3f() {
         nullValue = new Point3f();
-        addValue(nullValue,0.0f);
+        setValue(nullValue,0.0f);
     }
     
   

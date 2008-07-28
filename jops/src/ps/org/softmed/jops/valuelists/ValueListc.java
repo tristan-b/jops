@@ -39,14 +39,14 @@ public class ValueListc extends GeneralRandomValueList<Colorf>{
 
 		List<GenericValue> values = mainValueList.getValues();
 		for (GenericValue value : values) {
-			copy.mainValueList.addValue(new Colorf((Colorf) value.getValue()),
+			copy.mainValueList.setValue(new Colorf((Colorf) value.getValue()),
 					value.getTime());
 			copy.mainValueList.repeat = mainValueList.repeat;
 		}
 
 		values = randomValueList.getValues();
 		for (GenericValue value : values) {
-			copy.randomValueList.addValue(new Colorf((Colorf) value.getValue()),
+			copy.randomValueList.setValue(new Colorf((Colorf) value.getValue()),
 					value.getTime());
 			copy.randomValueList.repeat = randomValueList.repeat;
 		}
