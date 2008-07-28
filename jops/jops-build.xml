@@ -20,7 +20,7 @@
 	<property name="jibx-binding" value="bin/org/softmed/jops/fileloading/bindings.xml" />
 	<property name="jibx-lib" value="third-party/jibx" />
 
-	<property name="JOPS-Version" value="0.51" />
+	<property name="JOPS-Version" value="0.51.01" />
 	<property name="JOPS-Editor-Version" value="0.51" />
 
 
@@ -53,7 +53,7 @@
 
 		<echo>Compiling JOPS</echo>
 
-		<javac classpath="${jops-classpath}" srcdir="${jops-source}" destdir="${bin}/${jops-bin}" />
+		<javac target="1.5" classpath="${jops-classpath}" srcdir="${jops-source}" destdir="${bin}/${jops-bin}" />
 
 		<echo>Binding JOPS with JIBX</echo>
 

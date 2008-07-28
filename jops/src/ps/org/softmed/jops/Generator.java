@@ -85,7 +85,7 @@ public class Generator extends InfoObject {
 	List<Integer> modifierIndexes;
 	// String modifierIndexes;
 
-	private Matrix3f tempRotation = new Matrix3f();;
+	private Matrix3f tempRotation = new Matrix3f();
 
 	public Generator getCopy() {
 		Generator gen = (Generator) super.clone();
@@ -480,7 +480,7 @@ public class Generator extends InfoObject {
 	}
 
 	/*
-	 *  //
+	 * //
 	 */
 	public int getParticleBehaviourIndex() {
 		return particleBehaviourIndex;
