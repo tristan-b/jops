@@ -25,7 +25,7 @@ public class SimpleValueListf extends SimpleGenericValueList<Float> {
 	public SimpleValueListf() {
 		// nullValue = new GenericValue(0.0f,0.0f);
 		nullValue = 0.0f;
-		addValue(nullValue, 0.0f);
+		setValue(nullValue, 0.0f);
 	}
 
 	/*

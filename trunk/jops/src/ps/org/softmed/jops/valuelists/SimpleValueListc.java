@@ -27,7 +27,7 @@ public class SimpleValueListc extends SimpleGenericValueList<Colorf>{
 
 	public SimpleValueListc() {
 		nullValue = new Colorf(1f, 1f, 1f);
-		addValue(nullValue,0.0f);
+		setValue(nullValue,0.0f);
 	}
 
 	

@@ -24,7 +24,7 @@ public class SimpleValueListv3f extends SimpleGenericValueList<Vector3f>{
 
     public SimpleValueListv3f() {
         nullValue = new Vector3f();
-        addValue(nullValue,0.0f);
+        setValue(nullValue,0.0f);
     }
     
   

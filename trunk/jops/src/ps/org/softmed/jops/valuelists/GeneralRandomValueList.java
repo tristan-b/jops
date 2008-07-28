@@ -53,7 +53,7 @@ public abstract class GeneralRandomValueList<T> {
 	}
 
 	public void addValue(T value, float time) {
-		mainValueList.addValue(value, time);
+		mainValueList.setValue(value, time);
 	}
 
 	protected abstract T calculateRandomValue(T original, T random);

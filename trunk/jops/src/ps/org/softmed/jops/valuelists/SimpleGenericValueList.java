@@ -103,7 +103,7 @@ public abstract class SimpleGenericValueList<T>{
 		// */
 	}
 
-	public void addValue(T firstValue, float t) {
+	public void setValue(T firstValue, float t) {
 		GenericValue temp;
 		for (int i = 0; i < values.size(); i++) {
 			temp = values.get(i);
@@ -121,7 +121,7 @@ public abstract class SimpleGenericValueList<T>{
 
 	}
 
-	public void addValue(GenericValue v) {
+	public void setValue(GenericValue v) {
 		values.add(v);
 
 		compileArray();

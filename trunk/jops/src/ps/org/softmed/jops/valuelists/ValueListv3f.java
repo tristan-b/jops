@@ -38,13 +38,13 @@ public class ValueListv3f extends GeneralRandomValueList<Vector3f>{
 		
 		List<GenericValue> values = mainValueList.getValues();
 		for (GenericValue value : values) {
-			copy.mainValueList.addValue(new Vector3f((Vector3f) value.getValue()),value.getTime());
+			copy.mainValueList.setValue(new Vector3f((Vector3f) value.getValue()),value.getTime());
 			copy.mainValueList.repeat = mainValueList.repeat;
 		}
 		
 		values = randomValueList.getValues();
 		for (GenericValue value : values) {
-			copy.randomValueList.addValue(new Vector3f((Vector3f) value.getValue()),value.getTime());
+			copy.randomValueList.setValue(new Vector3f((Vector3f) value.getValue()),value.getTime());
 			copy.randomValueList.repeat = randomValueList.repeat;
 		}
 		
