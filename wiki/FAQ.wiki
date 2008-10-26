@@ -1,0 +1,34 @@
+#labels Featured
+#Frequently Asked Questions
+
+*My Particle System keeps running forever and ever and doesn't stop. Whats up ?*
+
+The Particle Manager by default is in GameMode - which removes PSs once they are dead - and the PS must be limited in order for it run only once.
+I have setup all of the PSs bundled with the Editor as not being time limited. This is because most effects are persistent, like a fountain or a jet or a flame, few are explosions.
+
+To make sure it is time limited, there are two solutions:
+
+1- load the ps on the editor.
+Click on the root node that says "Particle System" on the top left tree view.
+Under the tree view there should appear a few choices such as : Alive, Renderable, Time Limited,  Repeat after Limit and Life Limit.
+
+Please activate Time Limited.
+Save and use it.
+
+2 - You can load the ParticleSystem like this:
+
+ParticleLibrary pl = particleManager.getParticleLibrary();
+//load the PS
+String name = ps.setOriginalFromFile(filepath);
+//get the PS
+ParticleSystem ps = pl.getStandaloneCopy(name);
+//change it to make sure it is time limited
+ps.setLimited(true);
+//place the changed PS back in the library
+ps.setOriginal(name,ps);
+
+
+Now you can instance it normally by using the particle Manager:
+ps = pm.getCopyAttached(name);
+
+The returned ps will be a copy of the changed PS, now time limited, and should run only once. 
