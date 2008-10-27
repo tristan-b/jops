@@ -34,7 +34,7 @@ ps = pm.getCopyAttached(name);
 The returned ps will be a copy of the changed PS, now time limited, and should run only once. 
 
 
-*My Explosion Particle System is running twice ? Why ?*
+*My "Explosion" Particle System is running twice ? Why ?*
 
 About the PS running twice : it's not 
 
