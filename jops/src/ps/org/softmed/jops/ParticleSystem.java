@@ -87,6 +87,8 @@ public class ParticleSystem extends InfoObject {
 
 	private Modifier modifier;
 
+	List<RemovalListener> removalListeners = new ArrayList<RemovalListener>();
+
 	/** Creates a new instance of NewClass */
 	public ParticleSystem() {
 	}
@@ -247,15 +249,15 @@ public class ParticleSystem extends InfoObject {
 			return;
 
 		if (rotation != null && printRotMatrix) {
-			System.out.println("rot matrix");
-			System.out.println(rotation.m00() + "," + rotation.m10() + ","
-					+ rotation.m20() + "," + rotation.m30());
-			System.out.println(rotation.m01() + "," + rotation.m11() + ","
-					+ rotation.m21() + "," + rotation.m31());
-			System.out.println(rotation.m02() + "," + rotation.m12() + ","
-					+ rotation.m22() + "," + rotation.m32());
-			System.out.println(rotation.m03() + "," + rotation.m13() + ","
-					+ rotation.m23() + "," + rotation.m33());
+			// System.out.println("rot matrix");
+			// System.out.println(rotation.m00() + "," + rotation.m10() + ","
+			// + rotation.m20() + "," + rotation.m30());
+			// System.out.println(rotation.m01() + "," + rotation.m11() + ","
+			// + rotation.m21() + "," + rotation.m31());
+			// System.out.println(rotation.m02() + "," + rotation.m12() + ","
+			// + rotation.m22() + "," + rotation.m32());
+			// System.out.println(rotation.m03() + "," + rotation.m13() + ","
+			// + rotation.m23() + "," + rotation.m33());
 		}
 
 		updateLife(dt);
@@ -562,6 +564,24 @@ public class ParticleSystem extends InfoObject {
 			gen.getModifiers().addAll(extModifiers);
 		}
 
+	}
+
+	public List<RemovalListener> getRemovalListeners() {
+		return removalListeners;
+	}
+
+	public void addRemovalListener(RemovalListener listener) {
+		removalListeners.add(listener);
+	}
+
+	public void removeRemovalListener(RemovalListener listener) {
+		removalListeners.remove(listener);
+	}
+
+	public void signalRemoved() {
+		for (RemovalListener listener : removalListeners) {
+			listener.wasRemoved(this);
+		}
 	}
 
 }

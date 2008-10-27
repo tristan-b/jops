@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.softmed.jops.fileloading.DataFormatException;
 
-
 /**
  * 
  * @author eu
@@ -26,7 +25,7 @@ import org.softmed.jops.fileloading.DataFormatException;
 public class ParticleManager {
 
 	protected ParticleLibrary particleLibrary = new ParticleLibrary();
-	
+
 	protected boolean alive = true;
 
 	protected List<ParticleSystem> systems = new ArrayList<ParticleSystem>();
@@ -38,7 +37,6 @@ public class ParticleManager {
 	protected boolean gameMode = true;
 
 	protected boolean resetDeadParticleSystemsInEditMode = true;
-
 
 	private float dt;
 
@@ -54,38 +52,35 @@ public class ParticleManager {
 	public ParticleManager() {
 	}
 
-	
-	public String load(String filepath) throws IOException,DataFormatException{
+	public String load(String filepath) throws IOException, DataFormatException {
 		return particleLibrary.setOriginalFromFile(filepath);
 	}
-	
-	public String load(File file) throws IOException,DataFormatException{
+
+	public String load(File file) throws IOException, DataFormatException {
 		return particleLibrary.setOriginalFromFile(file);
 	}
-	
-	public String load(InputStream inputStream) throws IOException,DataFormatException{
+
+	public String load(InputStream inputStream) throws IOException,
+			DataFormatException {
 		return particleLibrary.setOriginalFromStream(inputStream);
 	}
-	
-	public String load(URL url) throws IOException,DataFormatException{
+
+	public String load(URL url) throws IOException, DataFormatException {
 		return particleLibrary.setOriginalFromURL(url);
 	}
-	
-	public ParticleSystem getCopyDetached(String filename){
+
+	public ParticleSystem getCopyDetached(String filename) {
 		return particleLibrary.getStandaloneCopy(filename);
 	}
-	
 
-	public ParticleSystem getCopyAttached(String filename){
+	public ParticleSystem getCopyAttached(String filename) {
 		ParticleSystem tps = particleLibrary.getStandaloneCopy(filename);
-		if(tps!=null)
+		if (tps != null)
 			systems.add(tps);
-		
-		return tps; 
+
+		return tps;
 	}
 
-	
-	
 	public void process(float timelapse) {
 		if (!alive)
 			return;
@@ -122,6 +117,9 @@ public class ParticleManager {
 			}
 
 			systems.removeAll(toRemove);
+			for (ParticleSystem ps : toRemove) {
+				ps.signalRemoved();
+			}
 
 			if (ddt < tt) {
 				return;
@@ -191,11 +189,9 @@ public class ParticleManager {
 		this.alive = alive;
 	}
 
-
 	public ParticleLibrary getParticleLibrary() {
 		return particleLibrary;
 	}
-
 
 	public void setParticleLibrary(ParticleLibrary particleLibrary) {
 		this.particleLibrary = particleLibrary;
