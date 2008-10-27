@@ -21,7 +21,7 @@
 	<property name="jibx-lib" value="third-party/jibx" />
 
 	<property name="JOPS-Version" value="0.51.002" />
-	<property name="JOPS-Editor-Version" value="0.51" />
+	<property name="JOPS-Editor-Version" value="0.51.002" />
 
 
 
