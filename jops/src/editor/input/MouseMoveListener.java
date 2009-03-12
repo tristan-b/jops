@@ -5,6 +5,15 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openmali.FastMath;
+import org.openmali.angle.PolarCoordinate2f;
+import org.openmali.vecmath2.Vector2f;
+import org.openmali.vecmath2.Vector3f;
 
 /*
  * MouseListener.java
@@ -20,10 +29,39 @@ import java.awt.event.MouseMotionListener;
  * @author eu
  */
 public class MouseMoveListener extends InputHandler implements
-		MouseMotionListener {
-	float t1 = 0;
+		MouseMotionListener, MouseWheelListener {
 
-	float t2 = 0;
+	MouseSmoother ms = new MouseSmoother();
+
+	boolean moving = false;
+	int maxStopCount = 20;
+	int stopCount = 0;
+
+	int maxIndex = 2;
+	int index = 0;
+	Vector2f[] mouseSmooth = new Vector2f[maxIndex];
+	float speed = 10;
+	// polar camera variables
+	boolean polar = true;
+	final float DEFAULT_DISTANCE_TO_AXIS = 3.0f;
+	Vector3f DEFAULT_POLAR_POSITION = new Vector3f(DEFAULT_DISTANCE_TO_AXIS, 0,
+			0);
+
+	float verticalAngleBias = FastMath.PI_HALF;
+	float horizontalAngleBias = 0;
+
+	float verticalAngle = verticalAngleBias;
+	float horizontalAngle = 0f;
+	float distanceToAxis = DEFAULT_DISTANCE_TO_AXIS;
+	float polarAngleResolution = 0.001f;
+
+	float sphereY = 0f;
+	float sphereX = 0f;
+
+	// FPS - style camera variables
+	float yt = 0;
+
+	float xt = 0;
 
 	Robot robot;
 
@@ -37,13 +75,14 @@ public class MouseMoveListener extends InputHandler implements
 
 	private float sens = 10f;
 
-	//private KeyEvent event;
+	// private KeyEvent event;
 
 	// private boolean centering;
 
 	private float mVerticalAngleResolution = 1.0f;
 
 	private float mHorizontalAngleResolution = 1.0f;
+	private boolean reseting;
 
 	/** Creates a new instance of MouseListener */
 	public MouseMoveListener() {
@@ -60,23 +99,38 @@ public class MouseMoveListener extends InputHandler implements
 
 	public void mouseMoved(MouseEvent e) {
 		if (capture) {
-		    // This is the Java 1.5 way!
-		    final Point componentAbsLoc = e.getComponent().getLocationOnScreen();
-			processInput(componentAbsLoc.x + e.getX(), componentAbsLoc.y + e.getY());
+			// This is the Java 1.5 way!
+			final Point componentAbsLoc = e.getComponent()
+					.getLocationOnScreen();
+			processInput(componentAbsLoc.x + e.getX(), componentAbsLoc.y
+					+ e.getY());
 		}
 	}
 
 	protected void processInput(int tx, int ty) {
-		if (tx != center.x)
-			result.x = tx;
-		// result.x /= 2;
-		if (ty != center.y)
-			result.y = ty;
-		// result.y /= 2;
+		result.x = tx;
+		result.y = ty;
+
+		if (result.y != center.y || result.x != center.x) {
+
+			yt = 0;
+
+			if (result.y != center.y) {
+				yt = sens * (result.y - center.y);// / dt;
+			}
+			xt = 0;
+
+			if (result.x != center.x) {
+				xt = sens * (center.x - result.x);// / dt;
+
+			}
+			System.out.println("xt: " + xt + " yt: " + yt);
+			ms.addMovement(xt, yt);
+		}
 
 	}
-	
-    @Override
+
+	@Override
 	public void destroy() {
 	}
 
@@ -104,41 +158,178 @@ public class MouseMoveListener extends InputHandler implements
 	public void setActionListener(ButtonListener actionListener) {
 		this.actionListener = actionListener;
 	}
-	
-    @Override
+
+	void moving() {
+		// if()
+		System.out.print("MOVING --- ");
+		// moving2();
+
+	}
+
+	void notMoving() {
+		System.out.println("NOT MOVING!!!!");
+	}
+
+	public void setCapture(boolean capture) {
+		this.capture = capture;
+		moving = false;
+		stopCount = 0;
+		ms.reset();
+		// notMoving();
+	}
+
+	@Override
 	protected void processInput() {
 
-		// System.out.println("rx->" + result.x + " |ry->" + result.y);
-		// System.out.println("cx->" + center.x + " |cy->" + center.y);
+		Vector2f v = ms.getTotalMovement();
+		if (v.length() > 0) {
+			// movement occourred
+			if (!moving) {
+				moving = true;
+				moving();
+			}
 
-		t1 = 0;
-
-		if (result.y != center.y) {
-			t1 = sens * frameRater.getTimeLapse() * (result.y - center.y);
-			// System.out.println("V->" + t1);
+		} else {
+			// no movement
+			if (moving) {
+				moving = false;
+				notMoving();
+			}
 		}
-		t2 = 0;
+		// move
 
-		if (result.x != center.x) {
-			t2 = sens * frameRater.getTimeLapse() * (center.x - result.x);
-			// System.out.println("H->" + t2);
+		if (!moving)
+			return;
+		else
+			moving2();
 
-		}
+		ms.reset();
 
-		camera.changeVerticalAngle(t1 * mVerticalAngleResolution);
-		camera.changeLateralAngle(t2 * mHorizontalAngleResolution);
 		camera.update();
-		// System.out.println("dx->" + t2 + " |dy->" + t1);
-		// System.out.println( camera.getStringInfo());
 
-		// centering = true;
 		result.x = center.x;
 		result.y = center.y;
+
 		centerMouse();
+
+	}
+
+	private void moving2() {
+		Vector2f temp = ms.getAverageMovement();
+		xt = temp.getX();
+		yt = temp.getY();
+
+		float dt = frameRater.getTimeLapse();
+		System.out.println("sxt: " + xt + " syt: " + yt);
+
+		if (polar) {
+
+			float vert = yt * polarAngleResolution;// *
+			// frameRater.getTimeLapse()
+			// ;
+			float horz = xt * polarAngleResolution;// *
+			// frameRater.getTimeLapse()
+			// ;
+
+			// horizontalAngle += -horz;
+			// verticalAngle += vert;
+
+			if (horz != 0)
+				if (horz < 0)
+					horizontalAngle += dt * speed;
+				else
+					horizontalAngle -= dt * speed;
+
+			if (vert != 0)
+				if (vert < 0)
+					verticalAngle -= dt * speed;
+				else
+					verticalAngle += dt * speed;
+
+			// limits the angles
+			if (horizontalAngle < 0f)
+				horizontalAngle += 2 * FastMath.PI;
+			if (horizontalAngle > 2 * FastMath.PI)
+				horizontalAngle -= 2 * FastMath.PI;
+
+			if (verticalAngle < 0)
+				verticalAngle = 0;
+			if (verticalAngle > FastMath.PI)
+				verticalAngle = FastMath.PI;
+
+			float x = distanceToAxis * FastMath.sin(verticalAngle)
+					* FastMath.cos(horizontalAngle);
+			float z = distanceToAxis * FastMath.sin(verticalAngle)
+					* FastMath.sin(horizontalAngle);
+			float y = distanceToAxis * FastMath.cos(verticalAngle);
+
+			camera.mPosition.set(x, y, z);
+			// camera.setLookingAt(0, 0, 0);
+			// System.out.println("H: " + horizontalAngle + "V: " +
+			// verticalAngle);
+			// System.out.println(camera.mPosition);
+
+			float dv = FastMath.toDeg(verticalAngle);
+			float dh = FastMath.toDeg(horizontalAngle);
+
+			// System.out.println("H: " + dh + " V: " + dv);
+
+			camera.mVerticalRotationAngle = 180 - dv;
+			camera.mLateralRotationAngle = dh - 180;
+
+			// System.out.println("CH: " + camera.mLateralRotationAngle +
+			// " CV: "
+			// + camera.mVerticalRotationAngle);
+
+		} else {
+
+			camera.changeVerticalAngle(yt * mVerticalAngleResolution);
+			camera.changeLateralAngle(xt * mHorizontalAngleResolution);
+			// camera.update();
+
+			// System.out.println("dx->" + t2 + " |dy->" + t1);
+			// System.out.println( camera.getStringInfo());
+
+			// centering = true;
+
+		}
 	}
 
 	public void centerMouse() {
+		reseting = true;
 		robot.mouseMove(center.x, center.y);
+	}
+
+	public boolean isPolar() {
+		return polar;
+	}
+
+	public void setPolar(boolean polar) {
+		this.polar = polar;
+		if (polar) {
+			distanceToAxis = DEFAULT_DISTANCE_TO_AXIS;
+			horizontalAngle = 0f;
+			verticalAngle = 0f;
+
+			camera.mPosition.set(DEFAULT_POLAR_POSITION);
+			// camera.setLookingAt(0, 0, 0);
+			camera.mLateralRotationAngle = 0;
+			camera.mVerticalRotationAngle = 0;
+			sphereX = 1.0f;
+		} else {
+			// TODO reset for FPS style controls
+		}
+	}
+
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		System.out.println("Mouse Wheel!!!!");
+		if (capture && polar) {
+			int rot = e.getWheelRotation();
+			distanceToAxis += rot;
+			// TODO update camera
+			// camera.update();
+			processInput();
+		}
 	}
 
 }

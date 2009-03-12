@@ -75,11 +75,11 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 	}
 
 	private void hideCursor() {
-		//mouseListener.centerMouse();
+		mouseListener.centerMouse();
 		mouseListener.setCapture(true);
 		buttonListener.setCapture(true);
-		if (hiding)
-		canvas.setCursor( transparentCursor );
+//		if (hiding)
+//		canvas.setCursor( transparentCursor );
 		
 	}
 
