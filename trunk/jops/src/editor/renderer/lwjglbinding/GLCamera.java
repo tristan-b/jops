@@ -37,6 +37,7 @@ public class GLCamera {
 		GL11.glMatrixMode(GL11.GL_MODELVIEW); // matriz de
 												// modela��o/visualiza��o
 		GL11.glLoadIdentity();
+		
 		Project.gluLookAt(camera.mPosition.getX(), camera.mPosition.getY(),
 				-camera.mPosition.getZ(), // posi��o da camera
 				camera.mPosition.getX() + camera.mLookAt.getX(), // vector

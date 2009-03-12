@@ -49,14 +49,12 @@ public class ParticleEditor extends Editor {
 
 	public void setup() {
 
-
 		fileBrowser.loadFilesInDirectory(FileLoader.fileStatus.getDirectory());
 		center.add(fileBrowser);
 
 		setupGL(topCenter);
 
 		manager = engine.getParticleManager();
-
 
 		right.add(fileBrowser);
 		right.invalidate();
@@ -134,6 +132,7 @@ public class ParticleEditor extends Editor {
 			canvas = new GLCanvas(engine);
 			canvas.addKeyListener(key);
 			canvas.addMouseMotionListener(mouse);
+			canvas.addMouseWheelListener(mouse);
 			// for in-game presses
 			canvas.addMouseListener(key);
 			// to detect when i enter in-game mode
@@ -150,6 +149,8 @@ public class ParticleEditor extends Editor {
 			// canvas.run();
 
 			new Thread(canvas).start();
+
+			// canvas.setVSyncEnabled(true);
 
 		} catch (LWJGLException ex) {
 			ex.printStackTrace();
