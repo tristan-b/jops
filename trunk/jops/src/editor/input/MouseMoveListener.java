@@ -53,7 +53,7 @@ public class MouseMoveListener extends InputHandler implements
 	float verticalAngle = verticalAngleBias;
 	float horizontalAngle = 0f;
 	float distanceToAxis = DEFAULT_DISTANCE_TO_AXIS;
-	float polarAngleResolution = 0.001f;
+	float polarAngleResolution = 1f;
 
 	float sphereY = 0f;
 	float sphereX = 0f;
@@ -124,7 +124,7 @@ public class MouseMoveListener extends InputHandler implements
 				xt = sens * (center.x - result.x);// / dt;
 
 			}
-			System.out.println("xt: " + xt + " yt: " + yt);
+			// System.out.println("xt: " + xt + " yt: " + yt);
 			ms.addMovement(xt, yt);
 		}
 
@@ -180,8 +180,9 @@ public class MouseMoveListener extends InputHandler implements
 
 	@Override
 	protected void processInput() {
-
+		// ms.addMovement(0f, 0f);
 		Vector2f v = ms.getTotalMovement();
+		// System.out.println(v);
 		if (v.length() > 0) {
 			// movement occourred
 			if (!moving) {
@@ -194,13 +195,15 @@ public class MouseMoveListener extends InputHandler implements
 			if (moving) {
 				moving = false;
 				notMoving();
+				// ms.reset();
 			}
 		}
 		// move
 
-		if (!moving)
+		if (!moving) {
+			// ms.reset();
 			return;
-		else
+		} else
 			moving2();
 
 		ms.reset();
@@ -220,7 +223,7 @@ public class MouseMoveListener extends InputHandler implements
 		yt = temp.getY();
 
 		float dt = frameRater.getTimeLapse();
-		System.out.println("sxt: " + xt + " syt: " + yt);
+		// System.out.println("sxt: " + xt + " syt: " + yt);
 
 		if (polar) {
 
@@ -234,17 +237,20 @@ public class MouseMoveListener extends InputHandler implements
 			// horizontalAngle += -horz;
 			// verticalAngle += vert;
 
-			if (horz != 0)
-				if (horz < 0)
-					horizontalAngle += dt * speed;
-				else
-					horizontalAngle -= dt * speed;
+			horizontalAngle -= dt * horz;
+			verticalAngle += dt * vert;
 
-			if (vert != 0)
-				if (vert < 0)
-					verticalAngle -= dt * speed;
-				else
-					verticalAngle += dt * speed;
+			// if (horz != 0)
+			// if (horz < 0)
+			// horizontalAngle += dt * speed;
+			// else
+			// horizontalAngle -= dt * speed;
+			//
+			// if (vert != 0)
+			// if (vert < 0)
+			// verticalAngle -= dt * speed;
+			// else
+			// verticalAngle += dt * speed;
 
 			// limits the angles
 			if (horizontalAngle < 0f)

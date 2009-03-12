@@ -37,7 +37,7 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 		java.awt.event.MouseListener {
 
 	int border = 2;
-	
+
 	int x, y;
 
 	int mx, my;
@@ -62,8 +62,8 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 
 	private Cursor normal;
 
-	
 	RendererStatus rstatus;
+
 	/** Creates a new instance of SwingDealer */
 	public SwingDealer() {
 	}
@@ -78,9 +78,9 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 		mouseListener.centerMouse();
 		mouseListener.setCapture(true);
 		buttonListener.setCapture(true);
-//		if (hiding)
-//		canvas.setCursor( transparentCursor );
-		
+		if (hiding)
+			canvas.setCursor(transparentCursor);
+
 	}
 
 	public void setupDimensions(Component c) {
@@ -91,25 +91,24 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 		my = c.getHeight() / 2;
 		mouseListener.configureMouse(x, y, mx, my);
 
-		canvas.setBounds(border, border, c.getWidth()-2*border, c.getHeight()-2*border);
-		rstatus.getDisplay().setup(c.getWidth()-2*border,c.getHeight()-2*border);
+		canvas.setBounds(border, border, c.getWidth() - 2 * border, c
+				.getHeight()
+				- 2 * border);
+		rstatus.getDisplay().setup(c.getWidth() - 2 * border,
+				c.getHeight() - 2 * border);
 	}
 
-	
-	
 	// not working
 	public void componentResized(ComponentEvent e) {
 		setupDimensions(e.getComponent());
 	}
-
-	
 
 	public void componentMoved(ComponentEvent e) {
 		setupDimensions(e.getComponent());
 	}
 
 	public void componentShown(ComponentEvent e) {
-		
+
 	}
 
 	public void componentHidden(ComponentEvent e) {
@@ -124,8 +123,7 @@ public class SwingDealer implements ComponentListener, ButtonActuator,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1)
-		{
+		if (e.getButton() == MouseEvent.BUTTON1) {
 			hideCursor();
 			buttonListener.reset();
 		}
