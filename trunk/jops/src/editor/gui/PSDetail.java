@@ -1,5 +1,8 @@
 package gui;
 
+import input.ButtonListener;
+import input.MouseMoveListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -25,13 +28,13 @@ public class PSDetail extends JPanel {
 	DetailViewer dviewer = new DetailViewer();
 
 	public PSDetail(JToolBar jbar, StandardGLRenderer renderer,
-			TriangleParticleRenderer renderClient) {
+			TriangleParticleRenderer renderClient, MouseMoveListener mouse, ButtonListener key) {
 		tree.setChoiceListener(dviewer);
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		add(tree.getPane());
 		add(dviewer);
 
-		bar = new DevToolBar(jbar, tree, this, renderer, renderClient);
+		bar = new DevToolBar(jbar, tree, this, renderer, renderClient,mouse,key);
 		dviewer.setBar(bar);
 		Editor.EDITOR.setJMenuBar(bar);
 	}

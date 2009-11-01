@@ -4,7 +4,6 @@ import org.openmali.FastMath;
 import org.openmali.vecmath2.Vector3f;
 import org.softmed.jops.math.AnglesFastMath;
 
-
 /**
  * <p>
  * Title:
@@ -62,15 +61,10 @@ public class Camera {
 	// boolean tagging; //tagging ligado ou n�o (seguir um alvo)
 
 	public Camera() {
-		mVerticalRotationAngle = 120.0f;
-		mLateralRotationAngle = 225.0f;
+		reset();
 
-		// ponto posi��o
-		mPosition.set( 1.4f, 1.4f, 1.4f );
-
-	
 		// vector velocidade
-		mSpeed.set( 30.6f, 30.6f, 30.6f );
+		mSpeed.set(30.6f, 30.6f, 30.6f);
 
 		// caracter�sticas do sistema de vis�o
 		mFieldOfViewAngle = 45;
@@ -79,17 +73,27 @@ public class Camera {
 		// bob=true;
 
 		update();
-		
-		//setCameraPosition(3f,3f,3f);
-		//setLookingAt(0f,0f,0f);
 
+		// setCameraPosition(3f,3f,3f);
+		// setLookingAt(0f,0f,0f);
+
+	}
+
+	public void reset() {
+		mVerticalRotationAngle = 120.0f;
+		mLateralRotationAngle = 225.0f;
+
+		// ponto posi��o
+		mPosition.set(1.4f, 1.4f, 1.4f);
 	}
 
 	public void calcUpVector() {
 		float correctedVerticalAngle = mVerticalRotationAngle - 90f;
-		mUpVector.setX( math.cos(mLateralRotationAngle) * math.sin(correctedVerticalAngle) );
-		mUpVector.setZ( math.sin(mLateralRotationAngle) * (float) math.sin(correctedVerticalAngle) );
-		mUpVector.setY( math.cos(correctedVerticalAngle) );
+		mUpVector.setX(math.cos(mLateralRotationAngle)
+				* math.sin(correctedVerticalAngle));
+		mUpVector.setZ(math.sin(mLateralRotationAngle)
+				* (float) math.sin(correctedVerticalAngle));
+		mUpVector.setY(math.cos(correctedVerticalAngle));
 
 		// mUpVector.normalise();
 
@@ -107,9 +111,11 @@ public class Camera {
 	// mLateralRotationAngle
 	public void calcLookAt() {
 		// float correctedVerticalAngle = 90f - mVerticalRotationAngle;
-		mLookAt.setX( math.cos(mLateralRotationAngle) * math.sin(mVerticalRotationAngle) );
-		mLookAt.setZ( math.sin(mLateralRotationAngle) * math.sin(mVerticalRotationAngle) );
-		mLookAt.setY( math.cos(mVerticalRotationAngle) );
+		mLookAt.setX(math.cos(mLateralRotationAngle)
+				* math.sin(mVerticalRotationAngle));
+		mLookAt.setZ(math.sin(mLateralRotationAngle)
+				* math.sin(mVerticalRotationAngle));
+		mLookAt.setY(math.cos(mVerticalRotationAngle));
 
 		// mLookAt.normalise();
 		/*
@@ -125,8 +131,8 @@ public class Camera {
 	// calcula o vector straff a partir de rotcVer e mLateralRotationAngle
 	public void calcStraffVector() {
 
-//		mStraffVector.cross(mLookAt, mUpVector, mStraffVector);
-		
+		// mStraffVector.cross(mLookAt, mUpVector, mStraffVector);
+
 		mStraffVector.cross(mLookAt, mUpVector);
 
 		if (mStraffVector.getX() == 0.0f && mStraffVector.getY() == 0.0f
@@ -141,48 +147,48 @@ public class Camera {
 
 	public void moveForward(float mAmount) {
 
-		mPosition.addX( mLookAt.getX() * mAmount * speed );
-		mPosition.addZ( mLookAt.getZ() * mAmount * speed );
+		mPosition.addX(mLookAt.getX() * mAmount * speed);
+		mPosition.addZ(mLookAt.getZ() * mAmount * speed);
 
-		//the camera does not move vertically
-//		mPosition.y += mLookAt.y * mAmount * speed;
+		// the camera does not move vertically
+		// mPosition.y += mLookAt.y * mAmount * speed;
 	};
 
 	// altera a posi��o da c�mara - para Tr�s
 	public void moveBackward(float mAmount) {
 
-		mPosition.subX( mLookAt.getX() * mAmount * speed );
-		mPosition.subZ( mLookAt.getZ() * mAmount * speed );
-		
-		//the camera does not move vertically
-		//mPosition.y -= mLookAt.y * mAmount * speed;
+		mPosition.subX(mLookAt.getX() * mAmount * speed);
+		mPosition.subZ(mLookAt.getZ() * mAmount * speed);
+
+		// the camera does not move vertically
+		// mPosition.y -= mLookAt.y * mAmount * speed;
 
 	};
 
 	// altera a posi��o da c�mara - straff para a esquerda
 	public void leftStraff(float mAmount) {
 
-		mPosition.addX( mStraffVector.getX() * mAmount * speed );
-		mPosition.addY( mStraffVector.getY() * mAmount * speed );
-		mPosition.addZ( mStraffVector.getZ() * mAmount * speed );
+		mPosition.addX(mStraffVector.getX() * mAmount * speed);
+		mPosition.addY(mStraffVector.getY() * mAmount * speed);
+		mPosition.addZ(mStraffVector.getZ() * mAmount * speed);
 
 	};
 
 	// altera a posi��o da c�mara - straff para a direita
 	public void rightStraff(float mAmount) {
 
-		mPosition.subX( mStraffVector.getX() * mAmount * speed );
-		mPosition.subY( mStraffVector.getY() * mAmount * speed );
-		mPosition.subZ( mStraffVector.getZ() * mAmount * speed );
+		mPosition.subX(mStraffVector.getX() * mAmount * speed);
+		mPosition.subY(mStraffVector.getY() * mAmount * speed);
+		mPosition.subZ(mStraffVector.getZ() * mAmount * speed);
 
 	};
 
 	public void moveUp(float mAmount) {
-		mPosition.addY( mAmount * speed );
+		mPosition.addY(mAmount * speed);
 	};
 
 	public void moveDown(float mAmount) {
-		mPosition.subY( mAmount * speed );
+		mPosition.subY(mAmount * speed);
 	};
 
 	// faz update aos vectores da c�mara, apenas quando se altera os angulos -
@@ -193,7 +199,7 @@ public class Camera {
 		calcStraffVector();
 		if (cameraListener != null)
 			cameraListener.cameraChanged(this);
-		//write(getStringInfo());
+		// write(getStringInfo());
 	};
 
 	public String getStringInfo() {
@@ -256,13 +262,13 @@ public class Camera {
 
 	public void simplify(Vector3f v) {
 		if (v.getX() < 0.000001f && v.getX() > -0.000001f)
-			v.setX( 0f );
+			v.setX(0f);
 
 		if (v.getY() < 0.000001f && v.getY() > -0.000001f)
-			v.setY( 0f );
+			v.setY(0f);
 
 		if (v.getZ() < 0.000001f && v.getY() > -0.000001f)
-			v.setZ( 0f );
+			v.setZ(0f);
 
 	}
 
@@ -287,16 +293,16 @@ public class Camera {
 	}
 
 	public void setCameraPosition(float x, float y, float z) {
-		mPosition.set( x, y, z );
+		mPosition.set(x, y, z);
 	}
 
 	public void setLookingAt(float x, float y, float z) {
-		//doesn't work
-		float v = math.atan(FastMath.sqrt(x*x+z*z)/y);
-		float h = math.atan(z/x);
-		System.out.println("V->" + v + " |H->"+h);
-		math.convertSphericalToCartesian(h,v,mLookAt);
-		mLookAt.set( x, y, z );
+		// doesn't work
+		float v = math.atan(FastMath.sqrt(x * x + z * z) / y);
+		float h = math.atan(z / x);
+		System.out.println("V->" + v + " |H->" + h);
+		math.convertSphericalToCartesian(h, v, mLookAt);
+		mLookAt.set(x, y, z);
 	}
 
 }
