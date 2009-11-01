@@ -6,6 +6,9 @@ import gui.modifier.ModifierCreator;
 import gui.space.SpaceCreator;
 import gui.space.SpaceSelectionListener;
 
+import input.ButtonListener;
+import input.MouseMoveListener;
+
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,6 +110,8 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 
 	JCheckBoxMenuItem showPointMassesTreshold;
 
+	JCheckBoxMenuItem cameraPolar;
+
 	private PSTree tree;
 
 	private PSDetail detail;
@@ -114,11 +119,18 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 	StandardGLRenderer renderer;
 	TriangleParticleRenderer renderClient;
 
+	private MouseMoveListener mouse;
+
+	private ButtonListener key;
+
 	public DevToolBar(JToolBar bar, PSTree tree, PSDetail detail,
-			StandardGLRenderer renderer, TriangleParticleRenderer renderClient) {
+			StandardGLRenderer renderer, TriangleParticleRenderer renderClient,
+			MouseMoveListener mouse, ButtonListener key) {
 		this.bar = bar;
 		this.tree = tree;
 		this.detail = detail;
+		this.mouse = mouse;
+		this.key = key;
 
 		this.renderer = renderer;
 		this.renderClient = renderClient;
@@ -175,6 +187,7 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		showGenerators = (JCheckBoxMenuItem) CreateMenuCheckItem("Generators");
 		showPointMasses = (JCheckBoxMenuItem) CreateMenuCheckItem("Point Masses");
 		showPointMassesTreshold = (JCheckBoxMenuItem) CreateMenuCheckItem("Point Masses Treshold Radius");
+		cameraPolar = (JCheckBoxMenuItem) CreateMenuCheckItem("Camera Polar");
 
 		showGrid.setSelected(renderer.showGrid);
 		showAxis.setSelected(renderer.showAxis);
@@ -182,12 +195,14 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		showPointMasses.setSelected(renderClient.showPointMasses);
 		showPointMassesTreshold
 				.setSelected(renderClient.showPointMasseTreshold);
+		cameraPolar.setSelected(mouse.isPolar());
 
 		preferences.add(showGrid);
 		preferences.add(showAxis);
 		preferences.add(showGenerators);
 		preferences.add(showPointMasses);
 		preferences.add(showPointMassesTreshold);
+		preferences.add(cameraPolar);
 
 		add(preferences);
 
@@ -217,7 +232,7 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		/*
 		 * shutAllMinusGensThisOne = createButton("Shut Other Gens");
 		 * startAllGens = createButton("Start All Gens"); pauseAll =
-		 * createButton("Pause"); resetAll = createButton("Reset"); /*
+		 * createButton("Pause"); resetAll = createButton("Reset"); /
 		 * bar.add(emptyScene); bar.add(createDefaultGen);
 		 * bar.add(createEmptyGen);
 		 * 
@@ -361,6 +376,9 @@ public class DevToolBar extends JMenuBar implements ActionListener,
 		} else if (source == showPointMassesTreshold) {
 			renderClient.showPointMasseTreshold = showPointMassesTreshold
 					.isSelected();
+		} else if (source == cameraPolar) {
+			mouse.setPolar(cameraPolar.isSelected());
+			key.getCmanager().setActive(!cameraPolar.isSelected());
 		} else if (source == about) {
 			JOptionPane.showMessageDialog(Editor.EDITOR,
 					"Open Particle Editor V0.5 \n"

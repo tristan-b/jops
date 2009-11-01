@@ -41,6 +41,12 @@ public class ParticleEditor extends Editor {
 
 	private ParticleManager manager;
 
+	private MouseMoveListener mouse;
+
+	private ButtonListener key;
+
+	private CommandManager cmanager;
+
 	public static int image;
 
 	public ParticleEditor() {
@@ -63,7 +69,7 @@ public class ParticleEditor extends Editor {
 		Textures.setup(canvas);
 
 		detail = new PSDetail(toolbar, renderer,
-				(TriangleParticleRenderer) renderer.getClient());
+				(TriangleParticleRenderer) renderer.getClient(), mouse, key);
 		left.add(detail);
 		left.invalidate();
 		left.revalidate();
@@ -84,13 +90,13 @@ public class ParticleEditor extends Editor {
 				t.printStackTrace();
 			}
 
-			MouseMoveListener mouse = new MouseMoveListener();
+			mouse = new MouseMoveListener();
 			mouse.setCapture(false);
 
-			ButtonListener key = new ButtonListener();
+			key = new ButtonListener();
 			key.setCapture(false);
 
-			CommandManager cmanager = new CommandManager();
+			cmanager = new CommandManager();
 			mouse.setActionListener(key);
 
 			renderer = new StandardGLRenderer();
@@ -145,6 +151,7 @@ public class ParticleEditor extends Editor {
 			t.setupDimensions(comp);
 
 			comp.add(canvas);
+			mouse.setGLCanvas(canvas);
 
 			// canvas.run();
 

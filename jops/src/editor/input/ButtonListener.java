@@ -51,15 +51,14 @@ public class ButtonListener extends InputHandler implements KeyListener,
 
 	private ButtonActuator actuator;
 
-	
-	
-	public void reset()
-	{
+
+
+	public void reset() {
 		actuators.clear();
-		if(cmanager!=null)
+		if (cmanager != null)
 			cmanager.reset();
 	}
-	
+
 	public void addActuator(int key, ButtonActuator act) {
 		map.put(key, act);
 
@@ -74,7 +73,7 @@ public class ButtonListener extends InputHandler implements KeyListener,
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (!capture)
+		if (!capture )
 			return;
 
 		key = e.getKeyCode();
@@ -85,7 +84,7 @@ public class ButtonListener extends InputHandler implements KeyListener,
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if (!capture)
+		if (!capture )
 			return;
 
 		key = e.getKeyCode();
@@ -94,15 +93,15 @@ public class ButtonListener extends InputHandler implements KeyListener,
 			actuators.add(new ActData(actuator, false));
 
 	}
-	
-    @Override
+
+	@Override
 	protected void processInput() {
 
 		for (int i = 0; i < actuators.size(); i++) {
 			temp = actuators.get(i);
 
-			//TODO bug here, i'm, not getting the key from what
-			//was pressed at the time, just the last pressed key 
+			// TODO bug here, i'm, not getting the key from what
+			// was pressed at the time, just the last pressed key
 			if (temp.pressed)
 				temp.act.keyPressed(key, frameRater, camera, display);
 			else
@@ -169,8 +168,8 @@ public class ButtonListener extends InputHandler implements KeyListener,
 		// TODO Auto-generated method stub
 
 	}
-	
-    @Override
+
+	@Override
 	public void destroy() {
 	}
 
@@ -184,5 +183,7 @@ public class ButtonListener extends InputHandler implements KeyListener,
 	public void setCmanager(CommandManager cmanager) {
 		this.cmanager = cmanager;
 	}
+
+
 
 }

@@ -10,6 +10,8 @@ import view.Display;
 
 public class CommandManager {
 
+	boolean active = false;
+
 	PressedButton forward = new PressedButton();
 
 	PressedButton back = new PressedButton();
@@ -22,11 +24,11 @@ public class CommandManager {
 
 	PressedButton down = new PressedButton();
 
-	//private ButtonListener al;
+	// private ButtonListener al;
 
 	public void setup(ButtonListener al) {
 
-		//this.al = al;
+		// this.al = al;
 
 		al.addActuator(KeyEvent.VK_W, forward);
 		al.addActuator(KeyEvent.VK_S, back);
@@ -42,6 +44,10 @@ public class CommandManager {
 	}
 
 	public void process(FrameRater fr, Camera cr, Display d) {
+
+		if (!active)
+			return;
+
 		if (forward.isPressed()) {
 			cr.moveForward(fr.getTimeLapse());
 		}
@@ -63,17 +69,22 @@ public class CommandManager {
 
 	}
 
-	
-	public void reset()
-	{
+	public void reset() {
 		forward.setPressed(false);
 		back.setPressed(false);
 		left.setPressed(false);
 		right.setPressed(false);
 		up.setPressed(false);
 		down.setPressed(false);
-		//forward.setPressed(false);
+		// forward.setPressed(false);
 	}
-	
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 }

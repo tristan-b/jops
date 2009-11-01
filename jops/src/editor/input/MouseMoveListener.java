@@ -15,6 +15,8 @@ import org.openmali.angle.PolarCoordinate2f;
 import org.openmali.vecmath2.Vector2f;
 import org.openmali.vecmath2.Vector3f;
 
+import renderer.lwjglbinding.GLCanvas;
+
 /*
  * MouseListener.java
  *
@@ -83,6 +85,8 @@ public class MouseMoveListener extends InputHandler implements
 
 	private float mHorizontalAngleResolution = 1.0f;
 	private boolean reseting;
+
+	private GLCanvas canvas;
 
 	/** Creates a new instance of MouseListener */
 	public MouseMoveListener() {
@@ -313,15 +317,22 @@ public class MouseMoveListener extends InputHandler implements
 	public void setPolar(boolean polar) {
 		this.polar = polar;
 		if (polar) {
-			distanceToAxis = DEFAULT_DISTANCE_TO_AXIS;
-			horizontalAngle = 0f;
-			verticalAngle = 0f;
+			// distanceToAxis = DEFAULT_DISTANCE_TO_AXIS;
+			// horizontalAngle = 45f;
+			// verticalAngle = 45f;
+			//
+			// camera.mPosition.set(DEFAULT_POLAR_POSITION);
+			// // camera.setLookingAt(0, 0, 0);
+			// camera.mLateralRotationAngle = 0;
+			// camera.mVerticalRotationAngle = 0;
+			// sphereX = 0.0f;
+			//
+			// // camera.reset();
+			//
+			processInput();
 
-			camera.mPosition.set(DEFAULT_POLAR_POSITION);
-			// camera.setLookingAt(0, 0, 0);
-			camera.mLateralRotationAngle = 0;
-			camera.mVerticalRotationAngle = 0;
-			sphereX = 1.0f;
+			camera.update();
+			canvas.repaint();
 		} else {
 			// TODO reset for FPS style controls
 		}
@@ -336,6 +347,11 @@ public class MouseMoveListener extends InputHandler implements
 			// camera.update();
 			processInput();
 		}
+	}
+
+	public void setGLCanvas(GLCanvas canvas) {
+		this.canvas = canvas;
+
 	}
 
 }
