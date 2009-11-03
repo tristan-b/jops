@@ -81,7 +81,8 @@ public class JIBXLoader implements FileLoaderImplementation {
 		BufferedInputStream bis = new BufferedInputStream(inputStream);
 		byte[] byteArray = readFully(bis);
 
-		File test = new File("temp.ops");
+		//File test = new File("temp.ops");
+		File test = File.createTempFile("jopstemp", ".ops");
 		FileOutputStream fos = new FileOutputStream(test);
 		fos.write(byteArray);
 		fos.flush();
