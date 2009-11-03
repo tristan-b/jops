@@ -53,7 +53,7 @@
 
 		<echo>Compiling JOPS</echo>
 
-		<javac classpath="${jops-classpath}" srcdir="${jops-source}" destdir="${bin}/${jops-bin}" />
+		<javac target="1.5" classpath="${jops-classpath}" srcdir="${jops-source}" destdir="${bin}/${jops-bin}" />
 
 		<echo>Binding JOPS with JIBX</echo>
 
