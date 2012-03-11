@@ -24,7 +24,7 @@ import org.softmed.jops.modifiers.Modifier;
 import org.softmed.jops.modifiers.PointMass;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.glu.Sphere;
+import org.lwjgl.util.glu.Sphere;
 
 /**
  * 

@@ -11,10 +11,11 @@ package renderer;
 import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.glu.Disk;
-import org.lwjgl.opengl.glu.Quadric;
-import org.lwjgl.opengl.glu.Sphere;
-import org.lwjgl.opengl.glu.Util;
+
+import org.lwjgl.util.glu.Disk;
+import org.lwjgl.util.glu.Quadric;
+import org.lwjgl.util.glu.Sphere;
+import org.lwjgl.util.glu.Util;
 
 import renderer.lwjglbinding.GLCamera;
 import renderer.lwjglbinding.GLCanvas;
