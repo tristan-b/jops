@@ -100,21 +100,22 @@
 	</target>
 
 	<target name="JOPS-Editor-Windows-Platform">
-		<mkdir dir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<mkdir dir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
 
-		<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
 
-		<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
 
 		 
-		<copy file="third-party/lwjgl/win32/lwjgl.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-
-		<copy todir="${release}/jops-editor-win32-${JOPS-Editor-Version}/media">
+		<copy file="third-party/lwjgl/win32/lwjgl.dll" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/win64/lwjgl64.dll" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
+		
+		<copy todir="${release}/jops-editor-win-${JOPS-Editor-Version}/media">
 			<fileset dir="media" />
 		</copy>
 
@@ -125,49 +126,16 @@
 			</classpath>
 		</java>
 
-		<move file="jops-editor.bat" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<move file="jops-editor.bat" todir="${release}/jops-editor-win-${JOPS-Editor-Version}" />
 
 
-		<zip destfile="${release}/jops-editor-win32-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-win32-${JOPS-Editor-Version}">
+		<zip destfile="${release}/jops-editor-win-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-win-${JOPS-Editor-Version}">
 		</zip>
 
 	</target>
 
 	
 	
-	<target name="JOPS-Editor-Windows-64-Platform">
-			<mkdir dir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-
-			<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-			<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-
-			<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-			<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-			<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-			<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-			<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-
-			 
-			<copy file="third-party/lwjgl/win64/lwjgl64.dll" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-
-			<copy todir="${release}/jops-editor-win64-${JOPS-Editor-Version}/media">
-				<fileset dir="media" />
-			</copy>
-
-			<java classname="platform.WindowsRelease">
-				<arg value="jops-editor-${JOPS-Editor-Version}.jar" />
-				<classpath>
-					<pathelement location="${bin}/${jops-editor-bin}" />
-				</classpath>
-			</java>
-
-			<move file="jops-editor.bat" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
-
-
-			<zip destfile="${release}/jops-editor-win64-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-win64-${JOPS-Editor-Version}">
-			</zip>
-
-		</target>
 	
 	
 
@@ -211,7 +179,6 @@
 	<target name="JOPS-Editor-Platform-Releases">
 		<echo>Creating JOPS-Editor Platform Releases</echo>
 		<antcall target="JOPS-Editor-Windows-Platform" />
-		<antcall target="JOPS-Editor-Windows-64-Platform" />
 		<antcall target="JOPS-Editor-Linux-Platform" />
 	</target>
 
