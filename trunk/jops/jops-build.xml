@@ -15,13 +15,13 @@
 	<property name="release" value="release" />
 
 	<property name="jops-classpath" value="third-party/jibx/jibx-run.jar;third-party/math/openmali.jar" />
-	<property name="jops-editor-classpath" value="third-party/jibx/jibx-run.jar;third-party/math/openmali.jar;third-party/lwjgl/lwjgl.jar;third-party/lwjgl/lwjgl_devil.jar" />
+	<property name="jops-editor-classpath" value="third-party/jibx/jibx-run.jar;third-party/math/openmali.jar;third-party/lwjgl/lwjgl.jar;third-party/lwjgl/lwjgl_util.jar;third-party/slick-util.jar" />
 
 	<property name="jibx-binding" value="bin/org/softmed/jops/fileloading/bindings.xml" />
 	<property name="jibx-lib" value="third-party/jibx" />
 
-	<property name="JOPS-Version" value="0.51.002" />
-	<property name="JOPS-Editor-Version" value="0.51.002" />
+	<property name="JOPS-Version" value="0.51.005" />
+	<property name="JOPS-Editor-Version" value="0.51.005" />
 
 
 
@@ -91,7 +91,7 @@
 				<attribute name="Version" value="${JOPS-Editor-Version}" />
 				<attribute name="Built-By" value="${author}" />
 				<attribute name="Contact" value="${email}" />
-				<attribute name="Class-Path" value="lwjgl.jar lwjgl_devil.jar jops-${JOPS-Version}.jar jibx-run.jar openmali.jar" />
+				<attribute name="Class-Path" value="lwjgl.jar lwjgl_util.jar slick-util.jar jops-${JOPS-Version}.jar jibx-run.jar openmali.jar" />
 				<attribute name="Main-Class" value="gui.Main" />
 			</manifest>
 
@@ -108,13 +108,11 @@
 		<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 		<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 		<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/lwjgl_devil.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 
-		<copy file="third-party/lwjgl/win32/DevIL.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/win32/ILU.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/win32/ILUT.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
+		 
 		<copy file="third-party/lwjgl/win32/lwjgl.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/win32/lwjgl-devil.dll" todir="${release}/jops-editor-win32-${JOPS-Editor-Version}" />
 
 		<copy todir="${release}/jops-editor-win32-${JOPS-Editor-Version}/media">
 			<fileset dir="media" />
@@ -135,6 +133,43 @@
 
 	</target>
 
+	
+	
+	<target name="JOPS-Editor-Windows-64-Platform">
+			<mkdir dir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+
+			<copy file="${release}/jops-${JOPS-Version}.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+			<copy file="${release}/jops-editor-${JOPS-Editor-Version}.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+
+			<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+			<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+			<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+			<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+			<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+
+			 
+			<copy file="third-party/lwjgl/win64/lwjgl64.dll" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+
+			<copy todir="${release}/jops-editor-win64-${JOPS-Editor-Version}/media">
+				<fileset dir="media" />
+			</copy>
+
+			<java classname="platform.WindowsRelease">
+				<arg value="jops-editor-${JOPS-Editor-Version}.jar" />
+				<classpath>
+					<pathelement location="${bin}/${jops-editor-bin}" />
+				</classpath>
+			</java>
+
+			<move file="jops-editor.bat" todir="${release}/jops-editor-win64-${JOPS-Editor-Version}" />
+
+
+			<zip destfile="${release}/jops-editor-win64-${JOPS-Editor-Version}.zip" basedir="${release}/jops-editor-win64-${JOPS-Editor-Version}">
+			</zip>
+
+		</target>
+	
+	
 
 	<target name="JOPS-Editor-Linux-Platform">
 		<mkdir dir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
@@ -146,14 +181,11 @@
 		<copy file="third-party/math/openmali.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
 		<copy file="third-party/jibx/jibx-run.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
 		<copy file="third-party/lwjgl/lwjgl.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
-		<copy file="third-party/lwjgl/lwjgl_devil.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
-
-		<copy file="third-party/lwjgl/linux/libIL.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
-		<copy file="third-party/lwjgl/linux/libILU.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
-		<copy file="third-party/lwjgl/linux/libILUT.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
+		<copy file="third-party/lwjgl/lwjgl_util.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+		<copy file="third-party/slick-util.jar" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}" />
+		
 		<copy file="third-party/lwjgl/linux/liblwjgl.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
 		<copy file="third-party/lwjgl/linux/liblwjgl64.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
-		<copy file="third-party/lwjgl/linux/liblwjgl-devil.so" todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/native" />
 
 		<copy todir="${release}/jops-editor-linux-${JOPS-Editor-Version}/media">
 			<fileset dir="media" />
@@ -179,6 +211,7 @@
 	<target name="JOPS-Editor-Platform-Releases">
 		<echo>Creating JOPS-Editor Platform Releases</echo>
 		<antcall target="JOPS-Editor-Windows-Platform" />
+		<antcall target="JOPS-Editor-Windows-64-Platform" />
 		<antcall target="JOPS-Editor-Linux-Platform" />
 	</target>
 
@@ -205,8 +238,9 @@
 			<fileset file="${release}/jops-${JOPS-Version}.jar" />
 			<fileset file="third-party/math/openmali.jar" />
 			<fileset file="third-party/jibx/jibx-run.jar" />
+			<fileset file="third-party/slick-util.jar" />
 			<fileset file="third-party/lwjgl/lwjgl.jar" />
-			<fileset file="third-party/lwjgl/lwjgl_devil.jar" />
+			<fileset file="third-party/lwjgl/lwjgl_util.jar" />
 		</zip>
 	</target>
 

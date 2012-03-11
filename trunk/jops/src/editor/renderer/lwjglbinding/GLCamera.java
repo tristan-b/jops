@@ -9,7 +9,7 @@ package renderer.lwjglbinding;
  * and open the template in the editor.
  */
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.glu.Project;
+import org.lwjgl.util.glu.Project;
 
 import view.Camera;
 import view.Display;

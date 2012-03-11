@@ -1,11 +1,11 @@
 package textures;
 
-import org.lwjgl.devil.IL;
-import org.lwjgl.devil.ILU;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ByteOrder;
 import java.io.File;
+import java.io.IOException;
+
 import org.lwjgl.*;
 import org.lwjgl.opengl.*;
 
@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import org.openmali.vecmath2.Vector2f;
 import org.openmali.vecmath2.Vector3f;
 
@@ -87,8 +90,8 @@ public class Textures {
 
 		System.out.println("Request Texture ->" + filenameOnly);
 		try {
-			IL.create();
-			ILU.create();
+			// IL.create();
+			// ILU.create();
 			// if(canvas.is)
 			canvas.makeCurrent();
 
@@ -151,27 +154,32 @@ public class Textures {
 	 * @throws TextureNotFoundException
 	 *             thrown if the file could not be loaded
 	 * @return returns the integer handle
+	 * @throws IOException
 	 */
 	public static int makeTextureFromFile(String filename, boolean repeat)
-			throws TextureNotFoundException {
-		IntBuffer image = ByteBuffer.allocateDirect(4).order(
-				ByteOrder.nativeOrder()).asIntBuffer();
-		IL.ilGenImages(image);
-		IL.ilBindImage(image.get(0));
-		int il_handle = image.get(0);
+			throws TextureNotFoundException, IOException {
+
+		Texture texture = TextureLoader.getTexture("PNG",
+				ResourceLoader.getResourceAsStream(filename));
+
+		// IntBuffer image = ByteBuffer.allocateDirect(4).order(
+		// ByteOrder.nativeOrder()).asIntBuffer();
+		// IL.ilGenImages(image);
+		// IL.ilBindImage(image.get(0));
+		// int il_handle = texture;
 		System.out.println("Loading " + filename);
-		IL.ilLoadImage(filename);
-		IL.ilConvertImage(IL.IL_RGBA, IL.IL_BYTE);
-		ILU.iluFlipImage(); // turns it up side down to fit OpenGL coord sys.
-		ByteBuffer scratch = IL.ilGetData();
-		if (IL.ilGetError() != IL.IL_NO_ERROR) {
-			System.out.println("Error " + ILU.iluErrorString(IL.ilGetError())
-					+ ", file " + filename);
-			throw new TextureNotFoundException(filename);
-		}
+		// IL.ilLoadImage(filename);
+		// IL.ilConvertImage(IL.IL_RGBA, IL.IL_BYTE);
+		// ILU.iluFlipImage(); // turns it up side down to fit OpenGL coord sys.
+		// ByteBuffer scratch = IL.ilGetData();
+		// if (IL.ilGetError() != IL.IL_NO_ERROR) {
+		// System.out.println("Error " + ILU.iluErrorString(IL.ilGetError())
+		// + ", file " + filename);
+		// throw new TextureNotFoundException(filename);
+		// }
 		// Create A IntBuffer? For Image Address In Memory
-		IntBuffer buf = ByteBuffer.allocateDirect(4).order(
-				ByteOrder.nativeOrder()).asIntBuffer();
+		IntBuffer buf = ByteBuffer.allocateDirect(4)
+				.order(ByteOrder.nativeOrder()).asIntBuffer();
 
 		// GL11.glEnable (GL11.GL_BLEND);
 		// GL11.glBlendFunc (GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -182,37 +190,38 @@ public class Textures {
 		// */
 
 		GL11.glGenTextures(buf); // Create Texture In OpenGL
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, buf.get(0));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTextureID());
+		// texture.bind();
 		// Typical Texture Generation Using Data From The Image
 		// Linear Filtering
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
-				GL11.GL_LINEAR);
-		// Linear Filtering
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
-				GL11.GL_LINEAR);
+		// GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+		// GL11.GL_LINEAR);
+		// // Linear Filtering
+		// GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+		// GL11.GL_LINEAR);
+		//
+		// GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+		// (repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
+		// GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+		// (repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
+		// // Generate The Texture
+		// GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA,
+		// IL.ilGetInteger(IL.IL_IMAGE_WIDTH),
+		// IL.ilGetInteger(IL.IL_IMAGE_HEIGHT), 0, GL11.GL_RGBA,
+		// GL11.GL_UNSIGNED_BYTE, scratch);
 
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
-				(repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
-		GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
-				(repeat ? GL11.GL_REPEAT : GL13.GL_CLAMP_TO_BORDER));
-		// Generate The Texture
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, IL
-				.ilGetInteger(IL.IL_IMAGE_WIDTH), IL
-				.ilGetInteger(IL.IL_IMAGE_HEIGHT), 0, GL11.GL_RGBA,
-				GL11.GL_UNSIGNED_BYTE, scratch);
+		// image.put(0, il_handle);
+		// image.rewind();
+		// IL.ilDeleteImages(image);
 
-		image.put(0, il_handle);
-		image.rewind();
-		IL.ilDeleteImages(image);
+		// int id = buf.get(0);
+		//
+		// buf = null;
 
-		int id = buf.get(0);
+		// scratch.clear();
+		// scratch = null;
 
-		buf = null;
-
-		scratch.clear();
-		scratch = null;
-
-		return id; // Return Image Address In Memory
+		return texture.getTextureID(); // Return Image Address In Memory
 	}
 
 	/**
